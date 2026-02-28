@@ -18,7 +18,7 @@
 LLM 에이전트용 원라인 프롬프트:
 
 ```text
-이 저장소의 `opencode.json`과 `oh-my-opencode.json`을 내 로컬 OpenCode 설정 경로(macOS/Linux: `~/.config/opencode`, Windows: `%USERPROFILE%\\.config\\opencode`)에 복사하고, 기존 파일은 먼저 백업한 뒤 doctor/check를 실행해서 기본 모델이 `openai/gpt-5.3-codex`, 빠른 모델이 `openai/gpt-5.3-codex-spark`로 설정되었는지 확인해줘.
+Please refer to [here](https://github.com/wjgoarxiv/opencode-gpt-portable-config). Copy `opencode.json` and `oh-my-opencode.json` from this repository into my local OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\\.config\\opencode` on Windows), back up existing files first, then run doctor/check and confirm default model is `openai/gpt-5.3-codex` and fast model is `openai/gpt-5.3-codex-spark`.
 ```
 
 macOS/Linux 기본 경로:

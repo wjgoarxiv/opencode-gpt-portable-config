@@ -18,7 +18,7 @@ Portable OpenCode/oh-my-opencode settings that route heavy tasks to `gpt-5.3-cod
 One-line prompt for your LLM agent:
 
 ```text
-Copy `opencode.json` and `oh-my-opencode.json` from this repository into my local OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\\.config\\opencode` on Windows), back up existing files first, then run doctor/check and confirm default model is `openai/gpt-5.3-codex` and fast model is `openai/gpt-5.3-codex-spark`.
+Please refer to [here](https://github.com/wjgoarxiv/opencode-gpt-portable-config). Copy `opencode.json` and `oh-my-opencode.json` from this repository into my local OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\\.config\\opencode` on Windows), back up existing files first, then run doctor/check and confirm default model is `openai/gpt-5.3-codex` and fast model is `openai/gpt-5.3-codex-spark`.
 ```
 
 macOS/Linux default path:
