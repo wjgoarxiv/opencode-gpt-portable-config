@@ -15,6 +15,12 @@
 2. 이 저장소의 파일을 OpenCode 설정 디렉터리에 복사합니다.
 3. doctor/check 명령으로 동작을 검증합니다.
 
+LLM 에이전트용 원라인 프롬프트:
+
+```text
+이 저장소의 `opencode.json`과 `oh-my-opencode.json`을 내 로컬 OpenCode 설정 경로(macOS/Linux: `~/.config/opencode`, Windows: `%USERPROFILE%\\.config\\opencode`)에 복사하고, 기존 파일은 먼저 백업한 뒤 doctor/check를 실행해서 기본 모델이 `openai/gpt-5.3-codex`, 빠른 모델이 `openai/gpt-5.3-codex-spark`로 설정되었는지 확인해줘.
+```
+
 macOS/Linux 기본 경로:
 
 ```bash
