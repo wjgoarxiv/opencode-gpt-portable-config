@@ -18,23 +18,32 @@ Portable OpenCode/oh-my-opencode settings that route heavy tasks to `gpt-5.3-cod
 One-line prompt for your LLM agent:
 
 ```text
-Please refer to [here](https://github.com/wjgoarxiv/opencode-gpt-portable-config). Copy `opencode.json` and `oh-my-opencode.json` from this repository into my local OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\\.config\\opencode` on Windows), back up existing files first, then run doctor/check and confirm default model is `openai/gpt-5.3-codex` and fast model is `openai/gpt-5.3-codex-spark`.
+Please refer to [here](https://github.com/wjgoarxiv/opencode-gpt-portable-config). Clone or download this repo, then: (1) copy `opencode-configs/opencode.json` and `opencode-configs/oh-my-opencode.normal.json` into my OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\.config\opencode` on Windows), renaming `oh-my-opencode.normal.json` to `oh-my-opencode.json`; (2) copy the fallback configs (`oh-my-opencode.spark-exhausted.json`, `oh-my-opencode.fallback.json`) and `switch-config.sh` into the same directory; (3) make `switch-config.sh` executable; (4) back up any existing files first; (5) run doctor/check and confirm default model is `openai/gpt-5.3-codex` and fast model is `openai/gpt-5.3-codex-spark`.
 ```
 
 macOS/Linux default path:
 
 ```bash
 mkdir -p ~/.config/opencode
-cp opencode.json ~/.config/opencode/opencode.json
-cp oh-my-opencode.json ~/.config/opencode/oh-my-opencode.json
+cp opencode-configs/opencode.json ~/.config/opencode/opencode.json
+cp opencode-configs/oh-my-opencode.normal.json ~/.config/opencode/oh-my-opencode.json
+cp opencode-configs/oh-my-opencode.spark-exhausted.json ~/.config/opencode/
+cp opencode-configs/oh-my-opencode.fallback.json ~/.config/opencode/
+cp opencode-configs/oh-my-opencode.normal.json ~/.config/opencode/
+cp opencode-configs/switch-config.sh ~/.config/opencode/
+chmod +x ~/.config/opencode/switch-config.sh
 ```
 
 Windows (PowerShell) default path:
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.config\opencode" | Out-Null
-Copy-Item .\opencode.json "$env:USERPROFILE\.config\opencode\opencode.json" -Force
-Copy-Item .\oh-my-opencode.json "$env:USERPROFILE\.config\opencode\oh-my-opencode.json" -Force
+Copy-Item .\opencode-configs\opencode.json "$env:USERPROFILE\.config\opencode\opencode.json" -Force
+Copy-Item .\opencode-configs\oh-my-opencode.normal.json "$env:USERPROFILE\.config\opencode\oh-my-opencode.json" -Force
+Copy-Item .\opencode-configs\oh-my-opencode.spark-exhausted.json "$env:USERPROFILE\.config\opencode\" -Force
+Copy-Item .\opencode-configs\oh-my-opencode.fallback.json "$env:USERPROFILE\.config\opencode\" -Force
+Copy-Item .\opencode-configs\oh-my-opencode.normal.json "$env:USERPROFILE\.config\opencode\" -Force
+Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode\" -Force
 ```
 
 ## Fallback Configs
