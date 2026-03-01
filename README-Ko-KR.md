@@ -46,9 +46,78 @@ Copy-Item .\opencode-configs\oh-my-opencode.normal.json "$env:USERPROFILE\.confi
 Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode\" -Force
 ```
 
-## Fallback 설정
+## Fallback 시스템
 
-OpenAI 장애/quota 소진에 대비한 3단계 fallback 시스템이 포함되어 있습니다. 모든 fallback 설정은 `opencode-configs/` 디렉터리에 있습니다.
+OpenAI 장애/quota 소진에 대비한 3단계 fallback 시스템이 포함되어 있습니다.
+
+> **중요:** OpenCode는 런타임 자동 폴백을 지원하지 않습니다. 문제 발생 시 아래 스크립트를 수동 실행한 후 OpenCode를 재시작해야 합니다.
+
+### 작동 원리
+
+```
+                     ┌──────────────┐
+                     │   NORMAL     │  ./switch-config.sh normal
+                     │    (기본)     │
+                     └──────┬───────┘
+                            │
+           ┌────────────────┴────────────────┐
+           │                                 │
+    ┌──────┴───────┐                ┌────────┴──────┐
+    │  고성능 작업   │                │  빠른 작업     │
+    │ gpt-5.3-codex│                │ gpt-5.3-codex │
+    │  (400k ctx)  │                │    -spark      │
+    └──────────────┘                │  (128k ctx)   │
+                                    └───────────────┘
+                            │
+                     Spark quota 소진?
+                            │ YES
+                            ▼
+              ┌────────────────────────┐
+              │    SPARK-EXHAUSTED     │  ./switch-config.sh spark-exhausted
+              │                        │
+              │  모든 agent →           │
+              │  gpt-5.3-codex (400k)  │
+              └────────────┬───────────┘
+                            │
+                     OpenAI 장애?
+                            │ YES
+                            ▼
+              ┌────────────────────────┐
+              │      EMERGENCY         │  ./switch-config.sh emergency
+              └────────────┬───────────┘
+                            │
+           ┌────────────────┴────────────────┐
+           │                                 │
+    ┌──────┴───────┐                ┌────────┴──────┐
+    │  고성능 작업   │                │  빠른 작업     │
+    │ kimi-k2.5    │                │  glm-4.7      │
+    │   -free       │                │   -free        │
+    │  (256k ctx)  │                │  (128k ctx)   │
+    └──────────────┘                └───────────────┘
+
+  복구 시: ./switch-config.sh normal → 원래 상태로 복원
+```
+
+```
+  모드              비용     성능     가용성
+  ──────────────────────────────────────────────────
+  NORMAL            $$$$    ★★★★★   OpenAI 의존
+  SPARK-EXHAUSTED   $$$     ★★★★    OpenAI 의존
+  EMERGENCY         FREE    ★★★     독립 (Kimi/GLM)
+```
+
+### 언제 전환해야 하나요?
+
+| 증상 | 조치 | 명령어 |
+|------|------|--------|
+| Spark agent가 quota 에러로 실패 | spark-exhausted로 전환 | `./switch-config.sh spark-exhausted` |
+| 모든 OpenAI 호출이 429/500/503 반환 | emergency로 전환 | `./switch-config.sh emergency` |
+| OpenAI 상태 페이지에 장애 표시 | emergency로 전환 | `./switch-config.sh emergency` |
+| OpenAI 복구 / quota 리셋 | normal로 복원 | `./switch-config.sh normal` |
+
+### 설정 파일
+
+모든 fallback 설정은 `opencode-configs/` 디렉터리에 있습니다.
 
 | 모드 | 설정 파일 | 모델 |
 |------|-----------|------|
@@ -90,8 +159,6 @@ cd ~/.config/opencode
 |-----------|---------------|------------|
 | `gpt-5.3-codex` | `kimi-k2.5-free` (256k ctx) | sisyphus, hephaestus, oracle, prometheus, metis, momus, atlas, plan, frontend, writer |
 | `gpt-5.3-codex-spark` | `glm-4.7-free` (128k ctx) | librarian, explore, sisyphus-junior, build, OpenCode-Builder |
-
-> **참고:** OpenCode는 런타임 자동 폴백을 지원하지 않습니다. 위 스크립트를 통한 수동 전환이 필요합니다.
 
 ## 검증 포인트
 

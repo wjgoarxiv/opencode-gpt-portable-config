@@ -46,9 +46,78 @@ Copy-Item .\opencode-configs\oh-my-opencode.normal.json "$env:USERPROFILE\.confi
 Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode\" -Force
 ```
 
-## Fallback Configs
+## Fallback System
 
-This repo includes a 3-tier fallback system for OpenAI outage resilience. All fallback configs are in the `opencode-configs/` directory.
+This repo includes a 3-tier fallback system for OpenAI outage resilience.
+
+> **Important:** OpenCode does not support runtime auto-fallback. You must manually run the switch script when issues occur, then restart OpenCode.
+
+### How It Works
+
+```
+                     ┌──────────────┐
+                     │   NORMAL     │  ./switch-config.sh normal
+                     │   (default)  │
+                     └──────┬───────┘
+                            │
+           ┌────────────────┴────────────────┐
+           │                                 │
+    ┌──────┴───────┐                ┌────────┴──────┐
+    │  Heavy Tasks  │                │  Fast Tasks    │
+    │ gpt-5.3-codex│                │ gpt-5.3-codex │
+    │  (400k ctx)  │                │    -spark      │
+    └──────────────┘                │  (128k ctx)   │
+                                    └───────────────┘
+                            │
+                     Spark quota gone?
+                            │ YES
+                            ▼
+              ┌────────────────────────┐
+              │    SPARK-EXHAUSTED     │  ./switch-config.sh spark-exhausted
+              │                        │
+              │  All agents →          │
+              │  gpt-5.3-codex (400k)  │
+              └────────────┬───────────┘
+                            │
+                     OpenAI down?
+                            │ YES
+                            ▼
+              ┌────────────────────────┐
+              │      EMERGENCY         │  ./switch-config.sh emergency
+              └────────────┬───────────┘
+                            │
+           ┌────────────────┴────────────────┐
+           │                                 │
+    ┌──────┴───────┐                ┌────────┴──────┐
+    │  Heavy Tasks  │                │  Fast Tasks    │
+    │ kimi-k2.5    │                │  glm-4.7      │
+    │   -free       │                │   -free        │
+    │  (256k ctx)  │                │  (128k ctx)   │
+    └──────────────┘                └───────────────┘
+
+  Recovery: ./switch-config.sh normal → back to default
+```
+
+```
+  Mode              Cost     Perf     Availability
+  ──────────────────────────────────────────────────
+  NORMAL            $$$$    ★★★★★   Depends on OpenAI
+  SPARK-EXHAUSTED   $$$     ★★★★    Depends on OpenAI
+  EMERGENCY         FREE    ★★★     Independent (Kimi/GLM)
+```
+
+### When to Switch
+
+| Symptom | Action | Command |
+|---------|--------|---------|
+| Spark agents failing with quota errors | Switch to spark-exhausted | `./switch-config.sh spark-exhausted` |
+| All OpenAI calls returning 429/500/503 | Switch to emergency | `./switch-config.sh emergency` |
+| OpenAI status page shows outage | Switch to emergency | `./switch-config.sh emergency` |
+| OpenAI restored / quota reset | Switch back to normal | `./switch-config.sh normal` |
+
+### Config Files
+
+All fallback configs are in the `opencode-configs/` directory.
 
 | Mode | Config File | Models |
 |------|-------------|--------|
@@ -90,8 +159,6 @@ cd ~/.config/opencode
 |--------------|--------------------|--------|
 | `gpt-5.3-codex` | `kimi-k2.5-free` (256k ctx) | sisyphus, hephaestus, oracle, prometheus, metis, momus, atlas, plan, frontend, writer |
 | `gpt-5.3-codex-spark` | `glm-4.7-free` (128k ctx) | librarian, explore, sisyphus-junior, build, OpenCode-Builder |
-
-> **Note:** OpenCode does not support runtime auto-fallback. Config switching is manual via the script above.
 
 ## Verify
 
