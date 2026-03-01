@@ -1,0 +1,102 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "sisyphus": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Orchestrator - Uses Kimi K2.5 for complex task management. [EMERGENCY FALLBACK]"
+    },
+    "hephaestus": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Craftsman - Autonomous deep worker for goal-oriented execution. [EMERGENCY FALLBACK]"
+    },
+    "oracle": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Consultant - Kimi K2.5 reasoning for hard problems. [EMERGENCY FALLBACK]"
+    },
+    "librarian": {
+      "model": "opencode/glm-4.7-free",
+      "description": "Researcher - GLM 4.7 for reading and summarizing docs. [EMERGENCY FALLBACK]"
+    },
+    "explore": {
+      "model": "opencode/glm-4.7-free",
+      "description": "Explorer - GLM 4.7 for file scanning and search. [EMERGENCY FALLBACK]"
+    },
+    "multimodal-looker": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Vision - Kimi K2.5 for vision-enabled workflows. [EMERGENCY FALLBACK]"
+    },
+    "prometheus": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Planner - Kimi K2.5 for strategic planning. [EMERGENCY FALLBACK]"
+    },
+    "metis": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Plan Reviewer - Kimi K2.5 for verifying plans. [EMERGENCY FALLBACK]"
+    },
+    "momus": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Critic - Kimi K2.5 for finding flaws. [EMERGENCY FALLBACK]"
+    },
+    "atlas": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Atlas - Kimi K2.5 for large-scale operations. [EMERGENCY FALLBACK]"
+    },
+    "plan": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Planner - Kimi K2.5 for creating detailed step-by-step plans. [EMERGENCY FALLBACK]"
+    },
+    "frontend-ui-ux-engineer": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "UI/UX - Kimi K2.5 for modern frontend frameworks and styling. [EMERGENCY FALLBACK]"
+    },
+    "document-writer": {
+      "model": "opencode/kimi-k2.5-free",
+      "description": "Writer - Kimi K2.5 for documentation. [EMERGENCY FALLBACK]"
+    },
+    "sisyphus-junior": {
+      "model": "opencode/glm-4.7-free",
+      "description": "Worker - GLM 4.7 for task execution. [EMERGENCY FALLBACK]"
+    },
+    "build": {
+      "model": "opencode/glm-4.7-free",
+      "description": "Builder - GLM 4.7 for build commands. [EMERGENCY FALLBACK]"
+    },
+    "OpenCode-Builder": {
+      "model": "opencode/glm-4.7-free",
+      "description": "Builder - GLM 4.7 for project scaffolding. [EMERGENCY FALLBACK]"
+    }
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "opencode/kimi-k2.5-free"
+    },
+    "ultrabrain": {
+      "model": "opencode/kimi-k2.5-free"
+    },
+    "deep": {
+      "model": "opencode/kimi-k2.5-free"
+    },
+    "artistry": {
+      "model": "opencode/kimi-k2.5-free"
+    },
+    "quick": {
+      "model": "opencode/glm-4.7-free"
+    },
+    "unspecified-low": {
+      "model": "opencode/glm-4.7-free"
+    },
+    "unspecified-high": {
+      "model": "opencode/kimi-k2.5-free"
+    },
+    "writing": {
+      "model": "opencode/glm-4.7-free"
+    }
+  },
+  "google_auth": false,
+  "sisyphus_agent": {
+    "disabled": false,
+    "default_builder_enabled": false,
+    "planner_enabled": true,
+    "replace_plan": true
+  }
+}

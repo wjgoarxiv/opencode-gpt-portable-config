@@ -1,0 +1,113 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "sisyphus": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "max",
+      "description": "Orchestrator - Uses top-tier reasoning for complex task management."
+    },
+    "hephaestus": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "medium",
+      "description": "Craftsman - Autonomous deep worker for goal-oriented execution (GPT 5.3 Codex)."
+    },
+    "oracle": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "high",
+      "description": "Consultant - Maximum reasoning capability for hard problems."
+    },
+    "librarian": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "Researcher - Fast research model for reading and summarizing docs. [Spark exhausted → Codex]"
+    },
+    "explore": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "Explorer - Fast model for file scanning and search. [Spark exhausted → Codex]"
+    },
+    "multimodal-looker": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "Vision - Use OpenAI Codex for vision-enabled workflows."
+    },
+    "prometheus": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "max",
+      "description": "Planner - High logic model for strategic planning."
+    },
+    "metis": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "max",
+      "description": "Plan Reviewer - Critical thinking model for verifying plans."
+    },
+    "momus": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "medium",
+      "description": "Critic - High logic model for finding flaws."
+    },
+    "atlas": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "Atlas - Heavy-duty task executor for large-scale operations."
+    },
+    "plan": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "Planner - High logic model for creating detailed step-by-step plans."
+    },
+    "frontend-ui-ux-engineer": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "UI/UX - Fast model with practical software guidance for modern frontend frameworks and styling."
+    },
+    "document-writer": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "Writer - Practical long-context generation for documentation."
+    },
+    "sisyphus-junior": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "Worker - Reliable generalist model for task execution. [Spark exhausted → Codex]"
+    },
+    "build": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "Builder - Reliable execution for build commands. [Spark exhausted → Codex]"
+    },
+    "OpenCode-Builder": {
+      "model": "openai/gpt-5.3-codex",
+      "description": "Builder - Reliable execution for project scaffolding. [Spark exhausted → Codex]"
+    }
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "high"
+    },
+    "ultrabrain": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "max"
+    },
+    "deep": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "medium"
+    },
+    "artistry": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "high"
+    },
+    "quick": {
+      "model": "openai/gpt-5.3-codex"
+    },
+    "unspecified-low": {
+      "model": "openai/gpt-5.3-codex"
+    },
+    "unspecified-high": {
+      "model": "openai/gpt-5.3-codex",
+      "variant": "max"
+    },
+    "writing": {
+      "model": "openai/gpt-5.3-codex"
+    }
+  },
+  "google_auth": false,
+  "sisyphus_agent": {
+    "disabled": false,
+    "default_builder_enabled": false,
+    "planner_enabled": true,
+    "replace_plan": true
+  }
+}
