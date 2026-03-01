@@ -1,5 +1,7 @@
 # OpenCode 이식형 설정 (Codex + Spark)
 
+![Cover](cover.png)
+
 무거운 작업은 `gpt-5.3-codex`, 빠른 작업은 `gpt-5.3-codex-spark`로 라우팅하는 OpenCode/oh-my-opencode 설정입니다.
 
 ## 파일 구성

@@ -1,5 +1,7 @@
 # OpenCode Portable Config (Codex + Spark)
 
+![Cover](cover.png)
+
 Portable OpenCode/oh-my-opencode settings that route heavy tasks to `gpt-5.3-codex` and fast tasks to `gpt-5.3-codex-spark`.
 
 ## Files
