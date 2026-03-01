@@ -260,16 +260,16 @@ def main():
 
     canvas = Image.alpha_composite(canvas, badge_layer)
 
-    # === 10. Clip to rounded rect (outer black shows) ===
+    # === 10. Clip to rounded rect (outer is transparent) ===
     mask = Image.new("L", (WIDTH, HEIGHT), 0)
     ImageDraw.Draw(mask).rounded_rectangle(
         [0, 0, WIDTH - 1, HEIGHT - 1], radius=RADIUS + 40, fill=255
     )
-    bg_black = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 255))
-    final = Image.composite(canvas, bg_black, mask)
+    bg_transparent = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
+    final = Image.composite(canvas, bg_transparent, mask)
 
     # === Save ===
-    final.convert("RGB").save(OUTPUT, "PNG", dpi=(DPI, DPI))
+    final.save(OUTPUT, "PNG", dpi=(DPI, DPI))
     mb = os.path.getsize(OUTPUT) / 1024 / 1024
     print(f"Saved: {OUTPUT}")
     print(f"{WIDTH}x{HEIGHT} @ {DPI} DPI  ({mb:.1f} MB)")
