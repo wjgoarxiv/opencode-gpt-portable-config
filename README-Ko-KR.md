@@ -37,6 +37,53 @@ Copy-Item .\opencode.json "$env:USERPROFILE\.config\opencode\opencode.json" -For
 Copy-Item .\oh-my-opencode.json "$env:USERPROFILE\.config\opencode\oh-my-opencode.json" -Force
 ```
 
+## Fallback 설정
+
+OpenAI 장애/quota 소진에 대비한 3단계 fallback 시스템이 포함되어 있습니다. 모든 fallback 설정은 `opencode-configs/` 디렉터리에 있습니다.
+
+| 모드 | 설정 파일 | 모델 |
+|------|-----------|------|
+| **normal** | `oh-my-opencode.normal.json` | GPT-5.3 Codex + Spark (기본) |
+| **spark-exhausted** | `oh-my-opencode.spark-exhausted.json` | 모든 agent를 GPT-5.3 Codex로 |
+| **emergency** | `oh-my-opencode.fallback.json` | Kimi K2.5 Free + GLM 4.7 Free |
+
+### 설치
+
+Fallback 설정 파일과 전환 스크립트를 OpenCode 설정 디렉터리에 복사합니다:
+
+```bash
+cp opencode-configs/*.json ~/.config/opencode/
+cp opencode-configs/switch-config.sh ~/.config/opencode/
+chmod +x ~/.config/opencode/switch-config.sh
+```
+
+### 사용법
+
+```bash
+cd ~/.config/opencode
+
+# 현재 모드 확인
+./switch-config.sh status
+
+# Spark quota 소진 시 → 모든 agent를 Codex로
+./switch-config.sh spark-exhausted
+
+# OpenAI 장애 시 → Kimi/GLM 무료 티어로 전환
+./switch-config.sh emergency
+
+# 정상 복구 시
+./switch-config.sh normal
+```
+
+### 비상 모델 매핑
+
+| 기본 모델 | 비상 대체 모델 | 대상 Agent |
+|-----------|---------------|------------|
+| `gpt-5.3-codex` | `kimi-k2.5-free` (256k ctx) | sisyphus, hephaestus, oracle, prometheus, metis, momus, atlas, plan, frontend, writer |
+| `gpt-5.3-codex-spark` | `glm-4.7-free` (128k ctx) | librarian, explore, sisyphus-junior, build, OpenCode-Builder |
+
+> **참고:** OpenCode는 런타임 자동 폴백을 지원하지 않습니다. 위 스크립트를 통한 수동 전환이 필요합니다.
+
 ## 검증 포인트
 
 적용 후 OpenCode doctor/check를 실행하여 아래를 확인하세요.
