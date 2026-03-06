@@ -67,7 +67,7 @@ This repo includes a 3-tier fallback system for OpenAI outage resilience.
     ┌──────┴───────┐                ┌────────┴──────┐
     │  Heavy Tasks  │                │  Fast Tasks    │
     │  gpt-5.4     │                │ gpt-5.3-codex │
-    │  (400k ctx)  │                │    -spark      │
+    │  (1.05M ctx) │                │    -spark      │
     └──────────────┘                │  (128k ctx)   │
                                     └───────────────┘
                             │
