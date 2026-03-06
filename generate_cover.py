@@ -229,7 +229,7 @@ def main():
     badges = [
         ("\uf0e7 COMPLEX", "gpt-5.4", (80, 250, 160)),
         ("\uf121 CODING", "gpt-5.3-codex", (100, 220, 255)),
-        ("\uf544 HELPER", "gpt-5.3-codex-spark", (170, 160, 255)),
+        ("\uf0ad HELPER", "gpt-5.3-codex-spark", (170, 160, 255)),
     ]
 
     bw, bh = 1600, 230
