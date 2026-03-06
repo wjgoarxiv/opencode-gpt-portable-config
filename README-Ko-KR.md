@@ -1,8 +1,8 @@
-# OpenCode 이식형 설정 (Codex + Spark)
+# OpenCode 이식형 설정 (GPT-5.4 + Codex)
 
 ![Cover](cover.png)
 
-무거운 작업은 `gpt-5.3-codex`, 빠른 작업은 `gpt-5.3-codex-spark`로 라우팅하는 OpenCode/oh-my-opencode 설정입니다.
+복잡한 작업은 `gpt-5.4`, 코드/스크립트 작성 작업은 `gpt-5.3-codex`, 탐색/리서치 보조는 `gpt-5.3-codex-spark`로 라우팅하는 OpenCode/oh-my-opencode 설정입니다.
 
 ## 파일 구성
 
@@ -20,7 +20,7 @@
 LLM 에이전트용 원라인 프롬프트:
 
 ```text
-Please refer to [here](https://github.com/wjgoarxiv/opencode-gpt-portable-config). Clone or download this repo, then: (1) copy `opencode-configs/opencode.json` and `opencode-configs/oh-my-opencode.normal.json` into my OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\.config\opencode` on Windows), renaming `oh-my-opencode.normal.json` to `oh-my-opencode.json`; (2) copy the fallback configs (`oh-my-opencode.spark-exhausted.json`, `oh-my-opencode.fallback.json`) and `switch-config.sh` into the same directory; (3) make `switch-config.sh` executable; (4) back up any existing files first; (5) run doctor/check and confirm default model is `openai/gpt-5.3-codex` and fast model is `openai/gpt-5.3-codex-spark`.
+Please refer to [here](https://github.com/wjgoarxiv/opencode-gpt-portable-config). Clone or download this repo, then: (1) copy `opencode-configs/opencode.json` and `opencode-configs/oh-my-opencode.normal.json` into my OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\.config\opencode` on Windows), renaming `oh-my-opencode.normal.json` to `oh-my-opencode.json`; (2) copy the fallback configs (`oh-my-opencode.spark-exhausted.json`, `oh-my-opencode.fallback.json`) and `switch-config.sh` into the same directory; (3) make `switch-config.sh` executable; (4) back up any existing files first; (5) run doctor/check and confirm complex model is `openai/gpt-5.4` and coding model is `openai/gpt-5.3-codex`.
 ```
 
 macOS/Linux 기본 경로:
@@ -66,7 +66,7 @@ OpenAI 장애/quota 소진에 대비한 3단계 fallback 시스템이 포함되�
            │                                 │
     ┌──────┴───────┐                ┌────────┴──────┐
     │  고성능 작업   │                │  빠른 작업     │
-    │ gpt-5.3-codex│                │ gpt-5.3-codex │
+    │  gpt-5.4     │                │ gpt-5.3-codex │
     │  (400k ctx)  │                │    -spark      │
     └──────────────┘                │  (128k ctx)   │
                                     └───────────────┘
@@ -77,7 +77,7 @@ OpenAI 장애/quota 소진에 대비한 3단계 fallback 시스템이 포함되�
               ┌────────────────────────┐
               │    SPARK-EXHAUSTED     │  ./switch-config.sh spark-exhausted
               │                        │
-              │  모든 agent →           │
+              │  spark 미사용 agent →    │
               │  gpt-5.3-codex (400k)  │
               └────────────┬───────────┘
                             │
@@ -123,8 +123,8 @@ OpenAI 장애/quota 소진에 대비한 3단계 fallback 시스템이 포함되�
 
 | 모드 | 설정 파일 | 모델 |
 |------|-----------|------|
-| **normal** | `oh-my-opencode.normal.json` | GPT-5.3 Codex + Spark (기본) |
-| **spark-exhausted** | `oh-my-opencode.spark-exhausted.json` | 모든 agent를 GPT-5.3 Codex로 |
+| **normal** | `oh-my-opencode.normal.json` | GPT-5.4 (복잡) + GPT-5.3 Codex (코딩) + Spark 보조 |
+| **spark-exhausted** | `oh-my-opencode.spark-exhausted.json` | GPT-5.4 (복잡) + GPT-5.3 Codex (spark 미사용 agent) |
 | **emergency** | `oh-my-opencode.fallback.json` | Kimi K2.5 Free + GLM 4.7 Free |
 
 ### 설치
@@ -145,7 +145,7 @@ cd ~/.config/opencode
 # 현재 모드 확인
 ./switch-config.sh status
 
-# Spark quota 소진 시 → 모든 agent를 Codex로
+# Spark quota 소진 시 → spark 미사용 agent를 Codex로
 ./switch-config.sh spark-exhausted
 
 # OpenAI 장애 시 → Kimi/GLM 무료 티어로 전환
@@ -159,7 +159,8 @@ cd ~/.config/opencode
 
 | 기본 모델 | 비상 대체 모델 | 대상 Agent |
 |-----------|---------------|------------|
-| `gpt-5.3-codex` | `kimi-k2.5-free` (256k ctx) | sisyphus, hephaestus, oracle, prometheus, metis, momus, atlas, plan, frontend, writer |
+| `gpt-5.4` | `kimi-k2.5-free` (256k ctx) | sisyphus, oracle, prometheus, metis, momus, atlas, plan |
+| `gpt-5.3-codex` | `kimi-k2.5-free` (256k ctx) | hephaestus, multimodal-looker, frontend, writer |
 | `gpt-5.3-codex-spark` | `glm-4.7-free` (128k ctx) | librarian, explore, sisyphus-junior, build, OpenCode-Builder |
 
 ## 검증 포인트
@@ -167,8 +168,8 @@ cd ~/.config/opencode
 적용 후 OpenCode doctor/check를 실행하여 아래를 확인하세요.
 
 - provider가 OpenAI인지
-- 기본(고성능) 모델이 `gpt-5.3-codex`로 해석되는지
-- 빠른 작업 모델이 `gpt-5.3-codex-spark`로 해석되는지
+- 기본(복잡) 모델이 `gpt-5.4`로 해석되는지
+- 코드/스크립트 모델이 `gpt-5.3-codex`로 해석되는지
 
 ## 보안
 

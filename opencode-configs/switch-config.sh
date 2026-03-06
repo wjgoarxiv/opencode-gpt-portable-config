@@ -13,11 +13,11 @@ TARGET="$CONFIG_DIR/oh-my-opencode.json"
 case "$1" in
   normal)
     cp "$CONFIG_DIR/oh-my-opencode.normal.json" "$TARGET"
-    echo "[OK] Switched to NORMAL mode (GPT-5.3 Codex + Spark)"
+    echo "[OK] Switched to NORMAL mode (GPT-5.4 complex + GPT-5.3 Codex coding + Spark helpers)"
     ;;
   spark-exhausted)
     cp "$CONFIG_DIR/oh-my-opencode.spark-exhausted.json" "$TARGET"
-    echo "[OK] Switched to SPARK-EXHAUSTED mode (All agents → GPT-5.3 Codex)"
+    echo "[OK] Switched to SPARK-EXHAUSTED mode (GPT-5.4 complex + GPT-5.3 Codex non-spark agents)"
     ;;
   emergency)
     cp "$CONFIG_DIR/oh-my-opencode.fallback.json" "$TARGET"
@@ -27,9 +27,9 @@ case "$1" in
     if grep -q "kimi-k2.5-free" "$TARGET"; then
       echo "[STATUS] EMERGENCY mode (Kimi/GLM Free)"
     elif grep -q "gpt-5.3-codex-spark" "$TARGET"; then
-      echo "[STATUS] NORMAL mode (Codex + Spark)"
+      echo "[STATUS] NORMAL mode (GPT-5.4 complex + GPT-5.3 Codex coding + Spark helpers)"
     else
-      echo "[STATUS] SPARK-EXHAUSTED mode (Codex only)"
+      echo "[STATUS] SPARK-EXHAUSTED mode (GPT-5.4 complex + GPT-5.3 Codex non-spark agents)"
     fi
     ;;
   *)
@@ -37,8 +37,8 @@ case "$1" in
     echo ""
     echo "Usage: $0 [normal|spark-exhausted|emergency|status]"
     echo ""
-    echo "  normal          GPT-5.3 Codex + Spark (default)"
-    echo "  spark-exhausted All agents use GPT-5.3 Codex (Spark quota gone)"
+    echo "  normal          GPT-5.4 complex + GPT-5.3 Codex coding + Spark helpers (default)"
+    echo "  spark-exhausted GPT-5.4 complex + GPT-5.3 Codex non-spark agents"
     echo "  emergency       Kimi K2.5 Free + GLM 4.7 Free (OpenAI down)"
     echo "  status          Show current config mode"
     ;;

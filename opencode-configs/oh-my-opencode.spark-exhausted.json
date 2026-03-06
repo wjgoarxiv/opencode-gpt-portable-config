@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "max",
       "description": "Orchestrator - Uses top-tier reasoning for complex task management."
     },
@@ -12,7 +12,7 @@
       "description": "Craftsman - Autonomous deep worker for goal-oriented execution (GPT 5.3 Codex)."
     },
     "oracle": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "high",
       "description": "Consultant - Maximum reasoning capability for hard problems."
     },
@@ -29,26 +29,26 @@
       "description": "Vision - Use OpenAI Codex for vision-enabled workflows."
     },
     "prometheus": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "max",
       "description": "Planner - High logic model for strategic planning."
     },
     "metis": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "max",
       "description": "Plan Reviewer - Critical thinking model for verifying plans."
     },
     "momus": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "medium",
       "description": "Critic - High logic model for finding flaws."
     },
     "atlas": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "description": "Atlas - Heavy-duty task executor for large-scale operations."
     },
     "plan": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "description": "Planner - High logic model for creating detailed step-by-step plans."
     },
     "frontend-ui-ux-engineer": {
@@ -74,19 +74,19 @@
   },
   "categories": {
     "visual-engineering": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "high"
     },
     "ultrabrain": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "max"
     },
     "deep": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "medium"
     },
     "artistry": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "high"
     },
     "quick": {
@@ -96,7 +96,7 @@
       "model": "openai/gpt-5.3-codex"
     },
     "unspecified-high": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4",
       "variant": "max"
     },
     "writing": {

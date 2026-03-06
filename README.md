@@ -1,8 +1,8 @@
-# OpenCode Portable Config (Codex + Spark)
+# OpenCode Portable Config (GPT-5.4 + Codex)
 
 ![Cover](cover.png)
 
-Portable OpenCode/oh-my-opencode settings that route heavy tasks to `gpt-5.3-codex` and fast tasks to `gpt-5.3-codex-spark`.
+Portable OpenCode/oh-my-opencode settings that route complex tasks to `gpt-5.4`, code/script tasks to `gpt-5.3-codex`, and search helpers to `gpt-5.3-codex-spark`.
 
 ## Files
 
@@ -20,7 +20,7 @@ Portable OpenCode/oh-my-opencode settings that route heavy tasks to `gpt-5.3-cod
 One-line prompt for your LLM agent:
 
 ```text
-Please refer to [here](https://github.com/wjgoarxiv/opencode-gpt-portable-config). Clone or download this repo, then: (1) copy `opencode-configs/opencode.json` and `opencode-configs/oh-my-opencode.normal.json` into my OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\.config\opencode` on Windows), renaming `oh-my-opencode.normal.json` to `oh-my-opencode.json`; (2) copy the fallback configs (`oh-my-opencode.spark-exhausted.json`, `oh-my-opencode.fallback.json`) and `switch-config.sh` into the same directory; (3) make `switch-config.sh` executable; (4) back up any existing files first; (5) run doctor/check and confirm default model is `openai/gpt-5.3-codex` and fast model is `openai/gpt-5.3-codex-spark`.
+Please refer to [here](https://github.com/wjgoarxiv/opencode-gpt-portable-config). Clone or download this repo, then: (1) copy `opencode-configs/opencode.json` and `opencode-configs/oh-my-opencode.normal.json` into my OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\.config\opencode` on Windows), renaming `oh-my-opencode.normal.json` to `oh-my-opencode.json`; (2) copy the fallback configs (`oh-my-opencode.spark-exhausted.json`, `oh-my-opencode.fallback.json`) and `switch-config.sh` into the same directory; (3) make `switch-config.sh` executable; (4) back up any existing files first; (5) run doctor/check and confirm complex model is `openai/gpt-5.4` and coding model is `openai/gpt-5.3-codex`.
 ```
 
 macOS/Linux default path:
@@ -66,7 +66,7 @@ This repo includes a 3-tier fallback system for OpenAI outage resilience.
            │                                 │
     ┌──────┴───────┐                ┌────────┴──────┐
     │  Heavy Tasks  │                │  Fast Tasks    │
-    │ gpt-5.3-codex│                │ gpt-5.3-codex │
+    │  gpt-5.4     │                │ gpt-5.3-codex │
     │  (400k ctx)  │                │    -spark      │
     └──────────────┘                │  (128k ctx)   │
                                     └───────────────┘
@@ -77,7 +77,7 @@ This repo includes a 3-tier fallback system for OpenAI outage resilience.
               ┌────────────────────────┐
               │    SPARK-EXHAUSTED     │  ./switch-config.sh spark-exhausted
               │                        │
-              │  All agents →          │
+              │  Non-spark agents →    │
               │  gpt-5.3-codex (400k)  │
               └────────────┬───────────┘
                             │
@@ -123,8 +123,8 @@ All fallback configs are in the `opencode-configs/` directory.
 
 | Mode | Config File | Models |
 |------|-------------|--------|
-| **normal** | `oh-my-opencode.normal.json` | GPT-5.3 Codex + Spark (default) |
-| **spark-exhausted** | `oh-my-opencode.spark-exhausted.json` | All agents use GPT-5.3 Codex |
+| **normal** | `oh-my-opencode.normal.json` | GPT-5.4 (complex) + GPT-5.3 Codex (coding) + Spark helpers |
+| **spark-exhausted** | `oh-my-opencode.spark-exhausted.json` | GPT-5.4 (complex) + GPT-5.3 Codex (non-spark agents) |
 | **emergency** | `oh-my-opencode.fallback.json` | Kimi K2.5 Free + GLM 4.7 Free |
 
 ### Setup
@@ -145,7 +145,7 @@ cd ~/.config/opencode
 # Check current mode
 ./switch-config.sh status
 
-# Spark quota exhausted → all agents use Codex
+# Spark quota exhausted → non-spark agents use Codex
 ./switch-config.sh spark-exhausted
 
 # OpenAI down → switch to Kimi/GLM free tier
@@ -159,7 +159,8 @@ cd ~/.config/opencode
 
 | Normal Model | Emergency Fallback | Agents |
 |--------------|--------------------|--------|
-| `gpt-5.3-codex` | `kimi-k2.5-free` (256k ctx) | sisyphus, hephaestus, oracle, prometheus, metis, momus, atlas, plan, frontend, writer |
+| `gpt-5.4` | `kimi-k2.5-free` (256k ctx) | sisyphus, oracle, prometheus, metis, momus, atlas, plan |
+| `gpt-5.3-codex` | `kimi-k2.5-free` (256k ctx) | hephaestus, multimodal-looker, frontend, writer |
 | `gpt-5.3-codex-spark` | `glm-4.7-free` (128k ctx) | librarian, explore, sisyphus-junior, build, OpenCode-Builder |
 
 ## Verify
@@ -167,8 +168,8 @@ cd ~/.config/opencode
 Run OpenCode doctor/check after applying. Validate that:
 
 - provider is OpenAI
-- default heavy model resolves to `gpt-5.3-codex`
-- fast/explore model resolves to `gpt-5.3-codex-spark`
+- default complex model resolves to `gpt-5.4`
+- coding/script model resolves to `gpt-5.3-codex`
 
 ## Security
 
