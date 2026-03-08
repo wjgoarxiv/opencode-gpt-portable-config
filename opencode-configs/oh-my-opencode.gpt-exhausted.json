@@ -4,72 +4,72 @@
     "sisyphus": {
       "model": "github-copilot/claude-opus-4-6",
       "variant": "max",
-      "description": "Orchestrator - Claude Opus 4.6 via Copilot. Claude-optimized prompts for best orchestration."
+      "description": "Orchestrator - Claude Opus 4.6 via Copilot. [GPT-EXHAUSTED: OpenAI direct quota spent]"
     },
     "hephaestus": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/gpt-5.4",
       "variant": "medium",
-      "description": "Craftsman - GPT-5.4 direct (OpenAI). GPT-native deep executor."
+      "description": "Craftsman - GPT-5.4 via Copilot. [GPT-EXHAUSTED: OpenAI direct unavailable]"
     },
     "oracle": {
       "model": "github-copilot/gpt-5.4",
       "variant": "high",
-      "description": "Consultant - GPT-5.4 via Copilot for architecture and hard problems."
+      "description": "Consultant - GPT-5.4 via Copilot for architecture and hard problems. [GPT-EXHAUSTED]"
     },
     "librarian": {
       "model": "github-copilot/gemini-3-flash",
-      "description": "Researcher - Gemini 3 Flash for fast doc research (0.33x cost)."
+      "description": "Researcher - Gemini 3 Flash for fast doc research. [GPT-EXHAUSTED]"
     },
     "explore": {
       "model": "github-copilot/grok-code-fast-1",
-      "description": "Explorer - Grok Code Fast 1 for file scanning and search (0.25x cost)."
+      "description": "Explorer - Grok Code Fast 1 for file scanning and search. [GPT-EXHAUSTED]"
     },
     "multimodal-looker": {
       "model": "github-copilot/gemini-3.1-pro",
-      "description": "Vision - Gemini 3.1 Pro for vision and multimodal workflows."
+      "description": "Vision - Gemini 3.1 Pro for vision workflows. [GPT-EXHAUSTED]"
     },
     "prometheus": {
       "model": "github-copilot/claude-opus-4-6",
       "variant": "max",
-      "description": "Planner - Claude Opus 4.6 for strategic planning (Claude-optimized)."
+      "description": "Planner - Claude Opus 4.6 via Copilot. [GPT-EXHAUSTED]"
     },
     "metis": {
       "model": "github-copilot/claude-opus-4-6",
       "variant": "max",
-      "description": "Plan Reviewer - Claude Opus 4.6 for critical plan verification."
+      "description": "Plan Reviewer - Claude Opus 4.6 via Copilot. [GPT-EXHAUSTED]"
     },
     "momus": {
       "model": "github-copilot/claude-sonnet-4-6",
       "variant": "medium",
-      "description": "Critic - Claude Sonnet 4.6 for finding flaws."
+      "description": "Critic - Claude Sonnet 4.6 via Copilot. [GPT-EXHAUSTED]"
     },
     "atlas": {
       "model": "github-copilot/claude-sonnet-4-6",
-      "description": "Atlas - Claude Sonnet 4.6 for task orchestration and execution."
+      "description": "Atlas - Claude Sonnet 4.6 via Copilot. [GPT-EXHAUSTED]"
     },
     "plan": {
       "model": "github-copilot/claude-opus-4-6",
-      "description": "Planner - Claude Opus 4.6 for creating detailed step-by-step plans."
+      "description": "Planner - Claude Opus 4.6 via Copilot. [GPT-EXHAUSTED]"
     },
     "frontend-ui-ux-engineer": {
       "model": "github-copilot/gemini-3.1-pro",
-      "description": "UI/UX - Gemini 3.1 Pro for modern frontend frameworks and styling."
+      "description": "UI/UX - Gemini 3.1 Pro via Copilot. [GPT-EXHAUSTED]"
     },
     "document-writer": {
       "model": "github-copilot/claude-sonnet-4-6",
-      "description": "Writer - Claude Sonnet 4.6 for long-form documentation."
+      "description": "Writer - Claude Sonnet 4.6 via Copilot. [GPT-EXHAUSTED]"
     },
     "sisyphus-junior": {
       "model": "github-copilot/gpt-5.4",
-      "description": "Worker - GPT-5.4 via Copilot for task execution."
+      "description": "Worker - GPT-5.4 via Copilot. [GPT-EXHAUSTED]"
     },
     "build": {
       "model": "github-copilot/grok-code-fast-1",
-      "description": "Builder - Grok Code Fast 1 for build commands (0.25x cost)."
+      "description": "Builder - Grok Code Fast 1 via Copilot. [GPT-EXHAUSTED]"
     },
     "OpenCode-Builder": {
       "model": "github-copilot/claude-sonnet-4-6",
-      "description": "Builder - Claude Sonnet 4.6 for project scaffolding."
+      "description": "Builder - Claude Sonnet 4.6 via Copilot. [GPT-EXHAUSTED]"
     }
   },
   "categories": {
@@ -78,7 +78,7 @@
       "variant": "high"
     },
     "ultrabrain": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/gpt-5.4",
       "variant": "max"
     },
     "deep": {

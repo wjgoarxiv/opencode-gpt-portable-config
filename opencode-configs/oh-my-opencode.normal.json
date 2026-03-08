@@ -2,79 +2,79 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/claude-opus-4-6",
       "variant": "max",
-      "description": "Orchestrator - Uses top-tier reasoning for complex task management."
+      "description": "Orchestrator - Claude Opus 4.6 via Copilot. Claude-optimized prompts for best orchestration."
     },
     "hephaestus": {
       "model": "openai/gpt-5.4",
       "variant": "medium",
-      "description": "Craftsman - Autonomous deep worker for goal-oriented execution."
+      "description": "Craftsman - GPT-5.4 direct (OpenAI). GPT-native deep executor."
     },
     "oracle": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/gpt-5.4",
       "variant": "high",
-      "description": "Consultant - Maximum reasoning capability for hard problems."
+      "description": "Consultant - GPT-5.4 via Copilot for architecture and hard problems."
     },
     "librarian": {
-      "model": "openai/gpt-5.4",
-      "description": "Researcher - Research model for reading and summarizing docs."
+      "model": "github-copilot/gemini-3-flash",
+      "description": "Researcher - Gemini 3 Flash for fast doc research (0.33x cost)."
     },
     "explore": {
-      "model": "openai/gpt-5.4",
-      "description": "Explorer - Model for file scanning and search."
+      "model": "github-copilot/grok-code-fast-1",
+      "description": "Explorer - Grok Code Fast 1 for file scanning and search (0.25x cost)."
     },
     "multimodal-looker": {
-      "model": "openai/gpt-5.4",
-      "description": "Vision - Use GPT-5.4 for vision-enabled workflows."
+      "model": "github-copilot/gemini-3.1-pro",
+      "description": "Vision - Gemini 3.1 Pro for vision and multimodal workflows."
     },
     "prometheus": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/claude-opus-4-6",
       "variant": "max",
-      "description": "Planner - High logic model for strategic planning."
+      "description": "Planner - Claude Opus 4.6 for strategic planning (Claude-optimized)."
     },
     "metis": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/claude-opus-4-6",
       "variant": "max",
-      "description": "Plan Reviewer - Critical thinking model for verifying plans."
+      "description": "Plan Reviewer - Claude Opus 4.6 for critical plan verification."
     },
     "momus": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/claude-sonnet-4-6",
       "variant": "medium",
-      "description": "Critic - High logic model for finding flaws."
+      "description": "Critic - Claude Sonnet 4.6 for finding flaws."
     },
     "atlas": {
-      "model": "openai/gpt-5.4",
-      "description": "Atlas - Heavy-duty task executor for large-scale operations."
+      "model": "github-copilot/claude-sonnet-4-6",
+      "description": "Atlas - Claude Sonnet 4.6 for task orchestration and execution."
     },
     "plan": {
-      "model": "openai/gpt-5.4",
-      "description": "Planner - High logic model for creating detailed step-by-step plans."
+      "model": "github-copilot/claude-opus-4-6",
+      "description": "Planner - Claude Opus 4.6 for creating detailed step-by-step plans."
     },
     "frontend-ui-ux-engineer": {
-      "model": "openai/gpt-5.4",
-      "description": "UI/UX - Model with practical software guidance for modern frontend frameworks and styling."
+      "model": "github-copilot/gemini-3.1-pro",
+      "description": "UI/UX - Gemini 3.1 Pro for modern frontend frameworks and styling."
     },
     "document-writer": {
-      "model": "openai/gpt-5.4",
-      "description": "Writer - Long-context generation for documentation."
+      "model": "github-copilot/claude-sonnet-4-6",
+      "description": "Writer - Claude Sonnet 4.6 for long-form documentation."
     },
     "sisyphus-junior": {
-      "model": "openai/gpt-5.4",
-      "description": "Worker - Reliable generalist model for task execution."
+      "model": "github-copilot/gpt-5.4",
+      "description": "Worker - GPT-5.4 via Copilot for task execution."
     },
     "build": {
-      "model": "openai/gpt-5.4",
-      "description": "Builder - Reliable execution for build commands."
+      "model": "github-copilot/grok-code-fast-1",
+      "description": "Builder - Grok Code Fast 1 for build commands (0.25x cost)."
     },
     "OpenCode-Builder": {
-      "model": "openai/gpt-5.4",
-      "description": "Builder - Reliable execution for project scaffolding."
+      "model": "github-copilot/claude-sonnet-4-6",
+      "description": "Builder - Claude Sonnet 4.6 for project scaffolding."
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/gemini-3.1-pro",
       "variant": "high"
     },
     "ultrabrain": {
@@ -82,25 +82,25 @@
       "variant": "max"
     },
     "deep": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/claude-opus-4-6",
       "variant": "medium"
     },
     "artistry": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/gemini-3.1-pro",
       "variant": "high"
     },
     "quick": {
-      "model": "openai/gpt-5.4"
+      "model": "github-copilot/grok-code-fast-1"
     },
     "unspecified-low": {
-      "model": "openai/gpt-5.4"
+      "model": "github-copilot/gpt-5.4"
     },
     "unspecified-high": {
-      "model": "openai/gpt-5.4",
+      "model": "github-copilot/claude-opus-4-6",
       "variant": "max"
     },
     "writing": {
-      "model": "openai/gpt-5.4"
+      "model": "github-copilot/claude-sonnet-4-6"
     }
   },
   "google_auth": false,

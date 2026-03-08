@@ -14,10 +14,10 @@ OUTPUT = os.path.join(os.path.dirname(__file__), "cover.png")
 BG = (18, 20, 28)
 WHITE = (235, 237, 245)
 
-F_XBOLD = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNLNerdFont-ExtraBold.ttf")
-F_BOLD = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNLNerdFont-Bold.ttf")
-F_REG = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNLNerdFont-Regular.ttf")
-F_LIGHT = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNLNerdFont-Light.ttf")
+F_XBOLD = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNerdFont-ExtraBold.ttf")
+F_BOLD = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNerdFont-Bold.ttf")
+F_REG = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNerdFont-Regular.ttf")
+F_LIGHT = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNerdFont-Light.ttf")
 
 
 def center(draw, text, font, w):
@@ -213,7 +213,7 @@ def main():
 
     # === 8. Tagline ===
     tag_font = ImageFont.truetype(F_LIGHT, 56)
-    tag = "All tasks powered by GPT-5.4."
+    tag = "Multi-Model Orchestration via GitHub Copilot + OpenAI"
     draw = ImageDraw.Draw(canvas)
     tag_x = center(draw, tag, tag_font, WIDTH)
     tag_y = line_y + 55
@@ -223,16 +223,17 @@ def main():
     canvas = Image.alpha_composite(canvas, tag_l)
 
     # === 9. Model badges — clean, no spec text ===
-    badge_font_label = ImageFont.truetype(F_BOLD, 72)
-    badge_font_model = ImageFont.truetype(F_REG, 80)
+    badge_font_label = ImageFont.truetype(F_BOLD, 65)
+    badge_font_model = ImageFont.truetype(F_REG, 72)
 
     badges = [
-        ("\uf0e7 ALL AGENTS", "gpt-5.4", (80, 250, 160)),
-        ("\uf071 EMERGENCY", "kimi/glm-free", (255, 140, 80)),
+        ("\uf0e7 NORMAL",        "claude-opus-4-6 + gpt-5.4 + gemini", (80, 250, 160)),
+        ("\uf0e7 GPT-EXHAUSTED", "All agents via GitHub Copilot",       (100, 160, 255)),
+        ("\uf071 EMERGENCY",     "kimi-k2.5-free / glm-4.7-free",       (255, 140, 80)),
     ]
 
-    bw, bh = 1600, 230
-    gap = 120
+    bw, bh = 1560, 230
+    gap = 90
     total = len(badges) * bw + gap * (len(badges) - 1)
     bsx = (WIDTH - total) // 2
     by = int(HEIGHT * 0.72)
