@@ -213,7 +213,7 @@ def main():
 
     # === 8. Tagline ===
     tag_font = ImageFont.truetype(F_LIGHT, 56)
-    tag = "GPT-5.4 for complex work, Codex for coding."
+    tag = "All tasks powered by GPT-5.4."
     draw = ImageDraw.Draw(canvas)
     tag_x = center(draw, tag, tag_font, WIDTH)
     tag_y = line_y + 55
@@ -227,9 +227,8 @@ def main():
     badge_font_model = ImageFont.truetype(F_REG, 80)
 
     badges = [
-        ("\uf0e7 COMPLEX", "gpt-5.4", (80, 250, 160)),
-        ("\uf121 CODING", "gpt-5.3-codex", (100, 220, 255)),
-        ("\uf0ad HELPER", "gpt-5.3-codex-spark", (170, 160, 255)),
+        ("\uf0e7 ALL AGENTS", "gpt-5.4", (80, 250, 160)),
+        ("\uf071 EMERGENCY", "kimi/glm-free", (255, 140, 80)),
     ]
 
     bw, bh = 1600, 230
