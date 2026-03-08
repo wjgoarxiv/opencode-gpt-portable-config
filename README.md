@@ -1,8 +1,8 @@
-# OpenCode Portable Config (Multi-Model)
+# OpenCode Portable Config (GPT-First)
 
 ![Cover](cover.png)
 
-Portable OpenCode/oh-my-opencode settings using a multi-model strategy: each agent routes to its optimal model via GitHub Copilot + OpenAI direct. 3-tier fallback for full resilience.
+Portable OpenCode/oh-my-opencode settings using a GPT-first strategy: all agents route to OpenAI GPT-5.4 directly. Fast tasks use GPT-5.3 Codex Spark. 3-tier fallback for full resilience.
 
 ## Files
 
@@ -48,41 +48,41 @@ Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode
 
 ## Model Routing
 
-This config routes each agent to its optimal model based on the oh-my-opencode architecture docs. All post-2026.2 models via GitHub Copilot.
+All agents route to OpenAI GPT-5.4 directly. Speed-critical tasks use GPT-5.3 Codex Spark or GPT-5.3 Codex.
 
 ### Normal Mode Agent Routing
 
-| Agent | Model | Provider | Reason |
-|-------|-------|----------|--------|
-| **sisyphus** | claude-opus-4-6 (max) | Copilot | Claude-optimized orchestration prompts |
-| **prometheus** | claude-opus-4-6 (max) | Copilot | Claude-like strategic planning |
-| **metis** | claude-opus-4-6 (max) | Copilot | Critical plan verification |
-| **plan** | claude-opus-4-6 | Copilot | Detailed step-by-step planning |
-| **hephaestus** | gpt-5.4 (medium) | OpenAI direct | GPT-native deep executor |
-| **oracle** | gpt-5.4 (high) | Copilot | GPT strength for architecture |
-| **atlas** | claude-sonnet-4-6 | Copilot | Task orchestration |
-| **momus** | claude-sonnet-4-6 (medium) | Copilot | Critic |
-| **document-writer** | claude-sonnet-4-6 | Copilot | Long-form writing |
-| **OpenCode-Builder** | claude-sonnet-4-6 | Copilot | Scaffolding |
-| **frontend-ui-ux-engineer** | gemini-3.1-pro | Copilot | Gemini excels at visual/frontend |
-| **multimodal-looker** | gemini-3.1-pro | Copilot | Vision & multimodal |
-| **librarian** | gemini-3-flash | Copilot | Fast doc research (0.33x cost) |
-| **explore** | grok-code-fast-1 | Copilot | Optimized for code search (0.25x cost) |
-| **build** | grok-code-fast-1 | Copilot | Fast build execution (0.25x cost) |
-| **sisyphus-junior** | gpt-5-mini | Copilot | General worker (0x cost) |
+| Agent | Model | Provider | Role |
+|-------|-------|----------|------|
+| **sisyphus** | gpt-5.4 (max) | OpenAI | Orchestrator |
+| **hephaestus** | gpt-5.4 (medium) | OpenAI | Deep executor |
+| **oracle** | gpt-5.4 (high) | OpenAI | Architecture / hard problems |
+| **prometheus** | gpt-5.4 (max) | OpenAI | Strategic planning |
+| **metis** | gpt-5.4 (max) | OpenAI | Plan verification |
+| **plan** | gpt-5.4 | OpenAI | Step-by-step planning |
+| **atlas** | gpt-5.4 | OpenAI | Task orchestration |
+| **momus** | gpt-5.4 (medium) | OpenAI | Critic |
+| **document-writer** | gpt-5.4 | OpenAI | Long-form documentation |
+| **OpenCode-Builder** | gpt-5.4 | OpenAI | Project scaffolding |
+| **frontend-ui-ux-engineer** | gpt-5.4 | OpenAI | Frontend / styling |
+| **multimodal-looker** | gpt-5.4 | OpenAI | Multimodal workflows |
+| **librarian** | gpt-5.3-codex | OpenAI | Fast doc research |
+| **sisyphus-junior** | gpt-5.3-codex | OpenAI | Task execution worker |
+| **explore** | gpt-5.3-codex-spark | OpenAI | File scanning / search |
+| **build** | gpt-5.3-codex-spark | OpenAI | Build commands |
 
 ### Normal Mode Category Routing
 
 | Category | Model | Provider |
 |----------|-------|----------|
-| visual-engineering | gemini-3.1-pro (high) | Copilot |
-| ultrabrain | gpt-5.4 (max) | OpenAI direct |
-| deep | claude-opus-4-6 (medium) | Copilot |
-| artistry | gemini-3.1-pro (high) | Copilot |
-| quick | grok-code-fast-1 | Copilot |
-| unspecified-low | gpt-5-mini | Copilot |
-| unspecified-high | claude-opus-4-6 (max) | Copilot |
-| writing | claude-sonnet-4-6 | Copilot |
+| visual-engineering | gpt-5.4 (high) | OpenAI |
+| ultrabrain | gpt-5.4 (max) | OpenAI |
+| deep | gpt-5.4 (medium) | OpenAI |
+| artistry | gpt-5.4 (high) | OpenAI |
+| quick | gpt-5.3-codex-spark | OpenAI |
+| unspecified-low | gpt-5.3-codex | OpenAI |
+| unspecified-high | gpt-5.4 (max) | OpenAI |
+| writing | gpt-5.4 | OpenAI |
 
 ## Fallback System
 
@@ -93,20 +93,17 @@ This config routes each agent to its optimal model based on the oh-my-opencode a
 │                    NORMAL (default)                  │
 │         ./switch-config.sh normal                   │
 │                                                     │
-│  Sisyphus/Prometheus → Claude Opus 4.6 (Copilot)   │
-│  Hephaestus          → GPT-5.4 (OpenAI direct)     │
-│  Oracle              → GPT-5.4 (Copilot)            │
-│  Frontend/Vision     → Gemini 3.1 Pro (Copilot)    │
-│  Explore/Build       → Grok Code Fast 1 (Copilot)  │
-│  Quick workers       → GPT-5 Mini (Copilot, free)  │
+│  All thinking agents  → GPT-5.4 (OpenAI direct)    │
+│  Research / workers   → GPT-5.3 Codex               │
+│  Fast search / build  → GPT-5.3 Codex Spark         │
 └─────────────────────┬───────────────────────────────┘
                       │
            OpenAI direct quota exhausted?
                       │ YES
                       ▼
 ┌─────────────────────────────────────────────────────┐
-│                 GPT-EXHAUSTED                     │
-│         ./switch-config.sh gpt-exhausted          │
+│                 GPT-EXHAUSTED                       │
+│         ./switch-config.sh gpt-exhausted            │
 │                                                     │
 │  All agents → GitHub Copilot only                  │
 │  Hephaestus → GPT-5.4 (Copilot)                   │
@@ -130,7 +127,7 @@ This config routes each agent to its optimal model based on the oh-my-opencode a
 ```
   Mode             Cost       Perf      Availability
   ────────────────────────────────────────────────────
-  NORMAL           $$+        ★★★★★    OpenAI + Copilot
+  NORMAL           $$+        ★★★★★    OpenAI direct
   GPT-EXHAUSTED  $$         ★★★★½    Copilot only
   EMERGENCY        FREE       ★★★      Kimi/GLM (independent)
 ```
@@ -139,7 +136,7 @@ This config routes each agent to its optimal model based on the oh-my-opencode a
 
 | Symptom | Action | Command |
 |---------|--------|---------|
-| OpenAI direct 429/500/503 (Codex quota) | Switch to gpt-exhausted | `./switch-config.sh gpt-exhausted` |
+| OpenAI direct 429/500/503 | Switch to gpt-exhausted | `./switch-config.sh gpt-exhausted` |
 | All OpenAI calls failing (full outage) | Switch to gpt-exhausted | `./switch-config.sh gpt-exhausted` |
 | Both OpenAI AND Copilot unavailable | Switch to emergency | `./switch-config.sh emergency` |
 | OpenAI restored / quota reset | Switch back to normal | `./switch-config.sh normal` |
@@ -148,7 +145,7 @@ This config routes each agent to its optimal model based on the oh-my-opencode a
 
 | Mode | Config File | Models |
 |------|-------------|--------|
-| **normal** | `oh-my-opencode.normal.json` | Multi-model: Copilot + OpenAI direct |
+| **normal** | `oh-my-opencode.normal.json` | GPT-5.4 (all) · GPT-5.3 Codex Spark (fast) |
 | **gpt-exhausted** | `oh-my-opencode.gpt-exhausted.json` | All GitHub Copilot |
 | **emergency** | `oh-my-opencode.fallback.json` | Kimi K2.5 Free + GLM 4.7 Free |
 
@@ -183,17 +180,17 @@ cd ~/.config/opencode
 
 | Normal Model | Emergency Fallback | Agents |
 |--------------|--------------------|--------|
-| claude-opus-4-6, gpt-5.4 | `kimi-k2.5-free` (256k ctx) | sisyphus, oracle, prometheus, metis, momus, atlas, plan, hephaestus, multimodal-looker, frontend-ui-ux-engineer, document-writer |
-| gemini-3-flash, grok-code-fast-1, gpt-5-mini | `glm-4.7-free` (128k ctx) | librarian, explore, sisyphus-junior, build, OpenCode-Builder |
+| gpt-5.4 | `kimi-k2.5-free` (256k ctx) | sisyphus, oracle, prometheus, metis, momus, atlas, plan, hephaestus, multimodal-looker, frontend-ui-ux-engineer, document-writer |
+| gpt-5.3-codex, gpt-5.3-codex-spark | `glm-4.7-free` (128k ctx) | librarian, explore, sisyphus-junior, build, OpenCode-Builder |
 
 ## Verify
 
 Run OpenCode doctor/check after applying. Validate that:
 
-- `sisyphus` resolves to `github-copilot/claude-opus-4-6`
+- `sisyphus` resolves to `openai/gpt-5.4`
 - `hephaestus` resolves to `openai/gpt-5.4`
-- `explore` resolves to `github-copilot/grok-code-fast-1`
-- `frontend-ui-ux-engineer` resolves to `github-copilot/gemini-3.1-pro`
+- `explore` resolves to `openai/gpt-5.3-codex-spark`
+- `build` resolves to `openai/gpt-5.3-codex-spark`
 
 ## Security
 
