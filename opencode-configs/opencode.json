@@ -2,8 +2,7 @@
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
     "oh-my-opencode@latest",
-    "opencode-openai-codex-auth",
-    "file:///Users/woojin/.config/opencode/plugins/codex-quota.js"
+    "opencode-openai-codex-auth"
   ],
   "provider": {
     "openai": {
@@ -99,32 +98,6 @@
             "input": ["text"],
             "output": ["text"]
           }
-        }
-      }
-    }
-  },
-  "opencode": {
-    "models": {
-      "kimi-k2.5-free": {
-        "name": "Kimi K2.5 (Free)",
-        "limit": {
-          "context": 256000,
-          "output": 8192
-        },
-        "modalities": {
-          "input": ["text"],
-          "output": ["text"]
-        }
-      },
-      "glm-4.7-free": {
-        "name": "GLM 4.7 (Free)",
-        "limit": {
-          "context": 128000,
-          "output": 8192
-        },
-        "modalities": {
-          "input": ["text"],
-          "output": ["text"]
         }
       }
     }
