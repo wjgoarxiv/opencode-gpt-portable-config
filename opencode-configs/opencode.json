@@ -1,8 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
-    "oh-my-opencode@latest",
-    "opencode-openai-codex-auth"
+    "opencode-openai-codex-auth",
+    "oh-my-openagent@latest"
   ],
   "provider": {
     "openai": {
@@ -17,59 +17,11 @@
             "input": ["text"],
             "output": ["text"]
           }
-        }
-      }
-    },
-    "github-copilot": {
-      "models": {
-        "claude-opus-4-6": {
-          "name": "Claude Opus 4.6 (Copilot)",
-          "limit": {
-            "context": 200000,
-            "output": 32000
-          },
-          "modalities": {
-            "input": ["text"],
-            "output": ["text"]
-          }
         },
-        "claude-sonnet-4-6": {
-          "name": "Claude Sonnet 4.6 (Copilot)",
+        "gpt-5.3-codex": {
+          "name": "GPT-5.3 Codex",
           "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": ["text"],
-            "output": ["text"]
-          }
-        },
-        "gemini-3.1-pro": {
-          "name": "Gemini 3.1 Pro (Copilot)",
-          "limit": {
-            "context": 1000000,
-            "output": 65536
-          },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          }
-        },
-        "gemini-3-flash": {
-          "name": "Gemini 3 Flash (Copilot)",
-          "limit": {
-            "context": 1000000,
-            "output": 65536
-          },
-          "modalities": {
-            "input": ["text"],
-            "output": ["text"]
-          }
-        },
-        "gpt-5.4": {
-          "name": "GPT-5.4 (Copilot)",
-          "limit": {
-            "context": 1050000,
+            "context": 400000,
             "output": 128000
           },
           "modalities": {
@@ -77,22 +29,37 @@
             "output": ["text"]
           }
         },
-        "gpt-5-mini": {
-          "name": "GPT-5 Mini (Copilot)",
+        "gpt-5.3-codex-spark": {
+          "name": "GPT-5.3 Codex Spark",
           "limit": {
             "context": 128000,
-            "output": 16384
+            "output": 8192
+          },
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          }
+        }
+      }
+    },
+    "opencode": {
+      "models": {
+        "kimi-k2.5-free": {
+          "name": "Kimi K2.5 (Free)",
+          "limit": {
+            "context": 256000,
+            "output": 8192
           },
           "modalities": {
             "input": ["text"],
             "output": ["text"]
           }
         },
-        "grok-code-fast-1": {
-          "name": "Grok Code Fast 1 (Copilot)",
+        "glm-4.7-free": {
+          "name": "GLM 4.7 (Free)",
           "limit": {
-            "context": 131072,
-            "output": 32768
+            "context": 128000,
+            "output": 8192
           },
           "modalities": {
             "input": ["text"],

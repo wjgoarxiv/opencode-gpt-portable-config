@@ -213,7 +213,7 @@ def main():
 
     # === 8. Tagline ===
     tag_font = ImageFont.truetype(F_LIGHT, 56)
-    tag = "GPT-First Orchestration  ·  All Agents via OpenAI Direct"
+    tag = "Two Profiles  ·  GPTGLM / GPTONLY  ·  oa-switch Ready"
     draw = ImageDraw.Draw(canvas)
     tag_x = center(draw, tag, tag_font, WIDTH)
     tag_y = line_y + 55
@@ -224,12 +224,12 @@ def main():
 
     # === 9. Model badges — clean, no spec text ===
     badge_font_label = ImageFont.truetype(F_BOLD, 65)
-    badge_font_model = ImageFont.truetype(F_REG, 72)
+    badge_font_model = ImageFont.truetype(F_REG, 62)
 
     badges = [
-        ("\uf0e7 NORMAL",        "gpt-5.4 (all)  ·  codex-spark (fast)",  (80, 250, 160)),
-        ("\uf0e7 GPT-EXHAUSTED", "All agents via GitHub Copilot",       (100, 160, 255)),
-        ("\uf071 EMERGENCY",     "kimi-k2.5-free / glm-4.7-free",       (255, 140, 80)),
+        ("\uf0e7 GPTGLM",    "GPT-5.4 heavy  ·  GLM-5.1 quick", (80, 250, 160)),
+        ("\uf0e7 GPTONLY",   "All agents via GPT-5.4",          (100, 160, 255)),
+        ("\uf013 OA-SWITCH", "wrapper  ·  alias friendly",      (255, 140, 80)),
     ]
 
     bw, bh = 1560, 230

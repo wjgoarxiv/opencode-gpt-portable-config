@@ -1,184 +1,130 @@
-# OpenCode 이식형 설정 (GPT-First)
+# OpenCode 이식형 설정
 
 ![Cover](cover.png)
 
-모든 작업을 OpenAI GPT-5.4로 직접 라우팅하는 OpenCode/oh-my-opencode 설정입니다. 속도가 중요한 작업은 GPT-5.3 Codex Spark를 사용하며, 3단계 fallback으로 완전한 복원력을 제공합니다.
+이 저장소는 현재 로컬에서 쓰는 OpenCode / oh-my-openagent 설정을 이식형으로 정리한 것입니다. 기준 프로파일은 두 가지입니다.
+
+- `gptglm`: `GPT-5.4 + GLM-5.1`
+- `gptonly`: `GPT-5.4 only`
+
+예전 `normal / gpt-exhausted / emergency` 체계는 이 저장소에서 더 이상 기준으로 쓰지 않습니다.
 
 ## 파일 구성
 
 - `opencode.json`
-- `oh-my-opencode.json`
-- `README.md`
-- `README-Ko-KR.md`
+- `oh-my-openagent.json`
+- `opencode-configs/opencode.json`
+- `opencode-configs/oh-my-openagent.gptglm.json`
+- `opencode-configs/oh-my-openagent.gptonly.json`
+- `opencode-configs/switch-config.sh`
+- `opencode-configs/oa-switch`
 
 ## 새 PC 적용 방법
 
-1. 기존 설정 파일을 백업합니다.
-2. 이 저장소의 파일을 OpenCode 설정 디렉터리에 복사합니다.
-3. doctor/check 명령으로 동작을 검증합니다.
-
-LLM 에이전트용 원라인 프롬프트:
-
-```text
-Please refer to [here](https://github.com/wjgoarxiv/opencode-gpt-portable-config). Clone or download this repo, then: (1) copy `opencode-configs/opencode.json` and `opencode-configs/oh-my-opencode.normal.json` into my OpenCode config path (`~/.config/opencode` on macOS/Linux, `%USERPROFILE%\.config\opencode` on Windows), renaming `oh-my-opencode.normal.json` to `oh-my-opencode.json`; (2) copy all fallback configs (`oh-my-opencode.gpt-exhausted.json`, `oh-my-opencode.fallback.json`) and `switch-config.sh` into the same directory; (3) make `switch-config.sh` executable; (4) back up any existing files first; (5) run doctor/check and confirm all agents resolve to `openai/gpt-5.4`.
-```
-
-macOS/Linux 기본 경로:
+macOS/Linux:
 
 ```bash
 mkdir -p ~/.config/opencode
 cp opencode-configs/opencode.json ~/.config/opencode/opencode.json
-cp opencode-configs/oh-my-opencode.normal.json ~/.config/opencode/oh-my-opencode.json
-cp opencode-configs/oh-my-opencode.gpt-exhausted.json ~/.config/opencode/
-cp opencode-configs/oh-my-opencode.fallback.json ~/.config/opencode/
-cp opencode-configs/switch-config.sh ~/.config/opencode/
+cp opencode-configs/oh-my-openagent.gptglm.json ~/.config/opencode/oh-my-openagent.gptglm.json
+cp opencode-configs/oh-my-openagent.gptonly.json ~/.config/opencode/oh-my-openagent.gptonly.json
+cp opencode-configs/oh-my-openagent.gptglm.json ~/.config/opencode/oh-my-openagent.json
+cp opencode-configs/switch-config.sh ~/.config/opencode/switch-config.sh
+cp opencode-configs/oa-switch ~/.local/bin/oa-switch
 chmod +x ~/.config/opencode/switch-config.sh
+chmod +x ~/.local/bin/oa-switch
 ```
 
-Windows (PowerShell) 기본 경로:
+Windows (PowerShell):
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.config\opencode" | Out-Null
 Copy-Item .\opencode-configs\opencode.json "$env:USERPROFILE\.config\opencode\opencode.json" -Force
-Copy-Item .\opencode-configs\oh-my-opencode.normal.json "$env:USERPROFILE\.config\opencode\oh-my-opencode.json" -Force
-Copy-Item .\opencode-configs\oh-my-opencode.gpt-exhausted.json "$env:USERPROFILE\.config\opencode\" -Force
-Copy-Item .\opencode-configs\oh-my-opencode.fallback.json "$env:USERPROFILE\.config\opencode\" -Force
-Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode\" -Force
+Copy-Item .\opencode-configs\oh-my-openagent.gptglm.json "$env:USERPROFILE\.config\opencode\oh-my-openagent.gptglm.json" -Force
+Copy-Item .\opencode-configs\oh-my-openagent.gptonly.json "$env:USERPROFILE\.config\opencode\oh-my-openagent.gptonly.json" -Force
+Copy-Item .\opencode-configs\oh-my-openagent.gptglm.json "$env:USERPROFILE\.config\opencode\oh-my-openagent.json" -Force
+Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode\switch-config.sh" -Force
 ```
 
-## 모델 라우팅
+## 프로파일 설명
 
-### Normal 모드 Agent 라우팅
+### `gptglm`
 
-| Agent | 모델 | 용도 |
-|-------|------|------|
-| **sisyphus** | gpt-5.4 (max) | 오케스트레이터 |
-| **hephaestus** | gpt-5.4 (medium) | 딥 실행자 |
-| **oracle** | gpt-5.4 (high) | 아키텍처 / 난해한 문제 |
-| **prometheus** | gpt-5.4 (max) | 전략 기획 |
-| **metis** | gpt-5.4 (max) | 계획 검증 |
-| **plan** | gpt-5.4 | 단계별 계획 수립 |
-| **atlas** | gpt-5.4 | 작업 오케스트레이션 |
-| **momus** | gpt-5.4 (medium) | 비평 |
-| **document-writer** | gpt-5.4 | 장문 문서 작성 |
-| **OpenCode-Builder** | gpt-5.4 | 프로젝트 스캐폴딩 |
-| **frontend-ui-ux-engineer** | gpt-5.4 | 프론트엔드 / 스타일링 |
-| **multimodal-looker** | gpt-5.4 | 멀티모달 워크플로 |
-| **librarian** | gpt-5.3-codex | 문서 리서치 |
-| **sisyphus-junior** | gpt-5.3-codex | 작업 실행 워커 |
-| **explore** | gpt-5.3-codex-spark | 파일 스캔 / 검색 |
-| **build** | gpt-5.3-codex-spark | 빌드 명령 |
+- 고난도 reasoning agent: `openai/gpt-5.4`
+- 빠른 검색 / 리서치 / 워커 계열: `zai-coding-plan/glm-5.1`
 
-## Fallback 시스템
+### `gptonly`
 
-OpenAI 장애에 대비한 3단계 fallback 시스템이 포함되어 있습니다.
+- 모든 agent와 category를 `openai/gpt-5.4`로 통일
 
-> **중요:** OpenCode는 런타임 자동 폴백을 지원하지 않습니다. 문제 발생 시 아래 스크립트를 수동 실행한 후 OpenCode를 재시작해야 합니다.
+## 전환 방법
 
-### 작동 원리
-
-```
-┌─────────────────────────────────────────────────────┐
-│                    NORMAL (기본)                     │
-│         ./switch-config.sh normal                   │
-│                                                     │
-│  모든 thinking agent → GPT-5.4 (OpenAI direct)     │
-│  리서치 / 워커        → GPT-5.3 Codex               │
-│  빠른 검색 / 빌드     → GPT-5.3 Codex Spark         │
-└─────────────────────┬───────────────────────────────┘
-                      │
-           OpenAI direct 할당량 소진?
-                      │ YES
-                      ▼
-┌─────────────────────────────────────────────────────┐
-│                 GPT-EXHAUSTED                       │
-│         ./switch-config.sh gpt-exhausted            │
-│                                                     │
-│  모든 agent → GitHub Copilot only                  │
-└─────────────────────┬───────────────────────────────┘
-                      │
-        OpenAI AND Copilot 모두 불가?
-                      │ YES
-                      ▼
-┌─────────────────────────────────────────────────────┐
-│                   EMERGENCY                         │
-│         ./switch-config.sh emergency                │
-│                                                     │
-│  고성능 작업 → kimi-k2.5-free (256k ctx)            │
-│  빠른 작업  → glm-4.7-free (128k ctx)              │
-└─────────────────────────────────────────────────────┘
-
-  복구 시: ./switch-config.sh normal → 원래 상태로 복원
-```
-
-```
-  모드             비용     성능     가용성
-  ─────────────────────────────────────────────
-  NORMAL           $$+     ★★★★★   OpenAI direct
-  GPT-EXHAUSTED    $$      ★★★★½   Copilot only
-  EMERGENCY        FREE    ★★★     독립 (Kimi/GLM)
-```
-
-### 언제 전환해야 하나요?
-
-| 증상 | 조치 | 명령어 |
-|------|------|--------|
-| OpenAI direct 429/500/503 | gpt-exhausted로 전환 | `./switch-config.sh gpt-exhausted` |
-| 모든 OpenAI 호출 실패 | gpt-exhausted로 전환 | `./switch-config.sh gpt-exhausted` |
-| OpenAI AND Copilot 모두 불가 | emergency로 전환 | `./switch-config.sh emergency` |
-| OpenAI 복구 / quota 리셋 | normal로 복원 | `./switch-config.sh normal` |
-
-### 설정 파일
-
-| 모드 | 설정 파일 | 모델 |
-|------|-----------|------|
-| **normal** | `oh-my-opencode.normal.json` | GPT-5.4 (전체) · GPT-5.3 Codex Spark (빠른 작업) |
-| **gpt-exhausted** | `oh-my-opencode.gpt-exhausted.json` | GitHub Copilot 전체 |
-| **emergency** | `oh-my-opencode.fallback.json` | Kimi K2.5 Free + GLM 4.7 Free |
-
-### 설치
+`~/.config/opencode`에서:
 
 ```bash
-cp opencode-configs/oh-my-opencode.gpt-exhausted.json ~/.config/opencode/
-cp opencode-configs/oh-my-opencode.fallback.json ~/.config/opencode/
-cp opencode-configs/switch-config.sh ~/.config/opencode/
-chmod +x ~/.config/opencode/switch-config.sh
+./switch-config.sh gptglm
+./switch-config.sh gptonly
+./switch-config.sh status
 ```
 
-### 사용법
+래퍼 스크립트를 써도 되고, alias로 써도 됩니다.
+
+래퍼 스크립트를 설치했다면:
+
+```bash
+oa-switch gptglm
+oa-switch gptonly
+oa-switch status
+```
+
+또는 alias:
+
+```bash
+alias oa-switch="$HOME/.config/opencode/switch-config.sh"
+```
+
+그다음부터는:
+
+```bash
+oa-switch gptglm
+oa-switch gptonly
+oa-switch status
+```
+
+## 스크립트가 하는 일
+
+`switch-config.sh`는 활성 파일을 바꿉니다.
+
+- `gptglm` -> `oh-my-openagent.gptglm.json`을 `oh-my-openagent.json`으로 복사
+- `gptonly` -> `oh-my-openagent.gptonly.json`을 `oh-my-openagent.json`으로 복사
+- `status` -> 현재 활성 파일에 `glm-5.1`이 있는지 확인
+
+## 이식형 `opencode.json`
+
+이 저장소의 `opencode.json`은 이식성을 우선합니다.
+
+- `oh-my-openagent@latest` 포함
+- `opencode-openai-codex-auth` 포함
+- OpenAI 모델 정의: `gpt-5.4`, `gpt-5.3-codex`, `gpt-5.3-codex-spark`
+- 보조 provider 정의: `kimi-k2.5-free`, `glm-4.7-free`
+
+로컬 전용 플러그인 경로는 일부러 넣지 않았습니다.
+
+## 검증
+
+복사 후:
 
 ```bash
 cd ~/.config/opencode
-
-# 현재 모드 확인
 ./switch-config.sh status
-
-# OpenAI direct 할당량 소진 → Copilot으로 전환
-./switch-config.sh gpt-exhausted
-
-# OpenAI AND Copilot 모두 불가 → Kimi/GLM 무료 티어로 전환
-./switch-config.sh emergency
-
-# 정상 복구 시
-./switch-config.sh normal
 ```
 
-### 비상 모델 매핑
+다음을 확인하면 됩니다.
 
-| 기본 모델 | 비상 대체 모델 | 대상 Agent |
-|-----------|---------------|------------|
-| `gpt-5.4` | `kimi-k2.5-free` (256k ctx) | sisyphus, oracle, prometheus, metis, momus, atlas, plan, hephaestus, multimodal-looker, frontend-ui-ux-engineer, document-writer |
-| `gpt-5.3-codex`, `gpt-5.3-codex-spark` | `glm-4.7-free` (128k ctx) | librarian, explore, sisyphus-junior, build, OpenCode-Builder |
-
-## 검증 포인트
-
-적용 후 OpenCode doctor/check를 실행하여 아래를 확인하세요.
-
-- `sisyphus`가 `openai/gpt-5.4`로 해석되는지
-- `hephaestus`가 `openai/gpt-5.4`로 해석되는지
-- `explore`가 `openai/gpt-5.3-codex-spark`로 해석되는지
-- `build`가 `openai/gpt-5.3-codex-spark`로 해석되는지
+- `gptglm` 전환 시 `GPTGLM mode`
+- `gptonly` 전환 시 `GPTONLY mode`
+- `oh-my-openagent.json` 내용이 함께 바뀜
 
 ## 보안
 
-이 저장소에는 API 키/토큰을 포함하지 않습니다.
+이 저장소에는 API 키, 토큰, 머신 종속 로컬 플러그인 경로를 포함하지 않습니다.
