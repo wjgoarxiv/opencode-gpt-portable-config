@@ -228,7 +228,7 @@ def main():
     badges = [
         ("\uf0e7 GPTGLM",    "GPT-5.4 heavy  ·  GLM-5.1 quick", (80, 250, 160)),
         ("\uf0e7 GPTONLY",   "All agents via GPT-5.4",          (100, 160, 255)),
-        ("\uf0e7 GPTOLLAMA", "GPT-5.4 heavy  ·  Gemma 4 31B",   (255, 140, 80)),
+        ("\uf0e7 GPTOLLAMA", "GPT-5.4 heavy  ·  Qwen 3.5 9B",   (255, 140, 80)),
     ]
 
     bw, bh = 1560, 230

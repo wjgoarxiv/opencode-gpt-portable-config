@@ -6,7 +6,7 @@
 
 - `gptglm`: `GPT-5.4 + GLM-5.1`
 - `gptonly`: `GPT-5.4 only`
-- `gptollama`: `GPT-5.4 + local Ollama gemma4:31b`
+- `gptollama`: `GPT-5.4 + local Ollama qwen3.5:9b`
 
 예전 `normal / gpt-exhausted / emergency` 체계는 이 저장소에서 더 이상 기준으로 쓰지 않습니다.
 
@@ -64,7 +64,7 @@ Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode
 ### `gptollama`
 
 - 고난도 reasoning agent: `openai/gpt-5.4`
-- 빠른 검색 / 리서치 / 워커 계열: `ollama/gemma4:31b`
+- 빠른 검색 / 리서치 / 워커 계열: `ollama/qwen3.5:9b`
 - `opencode.json`에 로컬 Ollama provider 설정이 필요
 
 ## 전환 방법
@@ -111,7 +111,7 @@ oa-switch status
 - `gptglm` -> `oh-my-openagent.gptglm.json`을 `oh-my-openagent.json`으로 복사
 - `gptonly` -> `oh-my-openagent.gptonly.json`을 `oh-my-openagent.json`으로 복사
 - `gptollama` -> `oh-my-openagent.gptollama.json`을 `oh-my-openagent.json`으로 복사
-- `status` -> 현재 활성 파일에 `glm-5.1` 또는 `ollama/gemma4:31b`가 있는지 확인
+- `status` -> 현재 활성 파일에 `glm-5.1` 또는 `ollama/qwen3.5:9b`가 있는지 확인
 
 ## 이식형 `opencode.json`
 
@@ -121,7 +121,7 @@ oa-switch status
 - `opencode-openai-codex-auth` 포함
 - OpenAI 모델 정의: `gpt-5.4`, `gpt-5.3-codex`, `gpt-5.3-codex-spark`
 - 보조 provider 정의: `kimi-k2.5-free`, `glm-4.7-free`
-- 로컬 Ollama provider 정의: `gemma4:31b`
+- 로컬 Ollama provider 정의: `qwen3.5:9b`
 
 로컬 전용 플러그인 경로는 일부러 넣지 않았습니다.
 
