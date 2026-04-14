@@ -2,10 +2,11 @@
 
 ![Cover](cover.png)
 
-이 저장소는 현재 로컬에서 쓰는 OpenCode / oh-my-openagent 설정을 이식형으로 정리한 것입니다. 기준 프로파일은 두 가지입니다.
+이 저장소는 현재 로컬에서 쓰는 OpenCode / oh-my-openagent 설정을 이식형으로 정리한 것입니다. 기준 프로파일은 세 가지입니다.
 
 - `gptglm`: `GPT-5.4 + GLM-5.1`
 - `gptonly`: `GPT-5.4 only`
+- `gptollama`: `GPT-5.4 + local Ollama gemma4:31b`
 
 예전 `normal / gpt-exhausted / emergency` 체계는 이 저장소에서 더 이상 기준으로 쓰지 않습니다.
 
@@ -16,6 +17,7 @@
 - `opencode-configs/opencode.json`
 - `opencode-configs/oh-my-openagent.gptglm.json`
 - `opencode-configs/oh-my-openagent.gptonly.json`
+- `opencode-configs/oh-my-openagent.gptollama.json`
 - `opencode-configs/switch-config.sh`
 - `opencode-configs/oa-switch`
 
@@ -28,6 +30,7 @@ mkdir -p ~/.config/opencode
 cp opencode-configs/opencode.json ~/.config/opencode/opencode.json
 cp opencode-configs/oh-my-openagent.gptglm.json ~/.config/opencode/oh-my-openagent.gptglm.json
 cp opencode-configs/oh-my-openagent.gptonly.json ~/.config/opencode/oh-my-openagent.gptonly.json
+cp opencode-configs/oh-my-openagent.gptollama.json ~/.config/opencode/oh-my-openagent.gptollama.json
 cp opencode-configs/oh-my-openagent.gptglm.json ~/.config/opencode/oh-my-openagent.json
 cp opencode-configs/switch-config.sh ~/.config/opencode/switch-config.sh
 cp opencode-configs/oa-switch ~/.local/bin/oa-switch
@@ -42,6 +45,7 @@ New-Item -ItemType Directory -Force "$env:USERPROFILE\.config\opencode" | Out-Nu
 Copy-Item .\opencode-configs\opencode.json "$env:USERPROFILE\.config\opencode\opencode.json" -Force
 Copy-Item .\opencode-configs\oh-my-openagent.gptglm.json "$env:USERPROFILE\.config\opencode\oh-my-openagent.gptglm.json" -Force
 Copy-Item .\opencode-configs\oh-my-openagent.gptonly.json "$env:USERPROFILE\.config\opencode\oh-my-openagent.gptonly.json" -Force
+Copy-Item .\opencode-configs\oh-my-openagent.gptollama.json "$env:USERPROFILE\.config\opencode\oh-my-openagent.gptollama.json" -Force
 Copy-Item .\opencode-configs\oh-my-openagent.gptglm.json "$env:USERPROFILE\.config\opencode\oh-my-openagent.json" -Force
 Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode\switch-config.sh" -Force
 ```
@@ -57,6 +61,12 @@ Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode
 
 - 모든 agent와 category를 `openai/gpt-5.4`로 통일
 
+### `gptollama`
+
+- 고난도 reasoning agent: `openai/gpt-5.4`
+- 빠른 검색 / 리서치 / 워커 계열: `ollama/gemma4:31b`
+- `opencode.json`에 로컬 Ollama provider 설정이 필요
+
 ## 전환 방법
 
 `~/.config/opencode`에서:
@@ -64,6 +74,7 @@ Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode
 ```bash
 ./switch-config.sh gptglm
 ./switch-config.sh gptonly
+./switch-config.sh gptollama
 ./switch-config.sh status
 ```
 
@@ -74,6 +85,7 @@ Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode
 ```bash
 oa-switch gptglm
 oa-switch gptonly
+oa-switch gptollama
 oa-switch status
 ```
 
@@ -88,6 +100,7 @@ alias oa-switch="$HOME/.config/opencode/switch-config.sh"
 ```bash
 oa-switch gptglm
 oa-switch gptonly
+oa-switch gptollama
 oa-switch status
 ```
 
@@ -97,7 +110,8 @@ oa-switch status
 
 - `gptglm` -> `oh-my-openagent.gptglm.json`을 `oh-my-openagent.json`으로 복사
 - `gptonly` -> `oh-my-openagent.gptonly.json`을 `oh-my-openagent.json`으로 복사
-- `status` -> 현재 활성 파일에 `glm-5.1`이 있는지 확인
+- `gptollama` -> `oh-my-openagent.gptollama.json`을 `oh-my-openagent.json`으로 복사
+- `status` -> 현재 활성 파일에 `glm-5.1` 또는 `ollama/gemma4:31b`가 있는지 확인
 
 ## 이식형 `opencode.json`
 
@@ -107,6 +121,7 @@ oa-switch status
 - `opencode-openai-codex-auth` 포함
 - OpenAI 모델 정의: `gpt-5.4`, `gpt-5.3-codex`, `gpt-5.3-codex-spark`
 - 보조 provider 정의: `kimi-k2.5-free`, `glm-4.7-free`
+- 로컬 Ollama provider 정의: `gemma4:31b`
 
 로컬 전용 플러그인 경로는 일부러 넣지 않았습니다.
 
@@ -123,6 +138,7 @@ cd ~/.config/opencode
 
 - `gptglm` 전환 시 `GPTGLM mode`
 - `gptonly` 전환 시 `GPTONLY mode`
+- `gptollama` 전환 시 `GPTOLLAMA mode`
 - `oh-my-openagent.json` 내용이 함께 바뀜
 
 ## 보안

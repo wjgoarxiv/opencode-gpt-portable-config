@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Cover image — pretty terminal style. All JetBrains Mono Nerd Font."""
 
-import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
-import os, math
+import os, math, random
 
 DPI = 600
 WIDTH = 5400
@@ -40,16 +39,16 @@ def main():
     canvas = Image.alpha_composite(canvas, inner)
 
     # === 3. Constellation star field ===
-    rng = np.random.default_rng(77)
+    rng = random.Random(77)
     stars_layer = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
     stars_draw = ImageDraw.Draw(stars_layer)
 
     # Generate star positions
     n_stars = 180
-    sx = rng.integers(pad + 60, WIDTH - pad - 60, size=n_stars)
-    sy = rng.integers(pad + 60, HEIGHT - pad - 60, size=n_stars)
-    s_bright = rng.integers(15, 55, size=n_stars)
-    s_size = rng.choice([1, 1, 1, 2, 2, 3], size=n_stars)
+    sx = [rng.randint(pad + 60, WIDTH - pad - 60) for _ in range(n_stars)]
+    sy = [rng.randint(pad + 60, HEIGHT - pad - 60) for _ in range(n_stars)]
+    s_bright = [rng.randint(15, 55) for _ in range(n_stars)]
+    s_size = [rng.choice([1, 1, 1, 2, 2, 3]) for _ in range(n_stars)]
 
     for i in range(n_stars):
         a = int(s_bright[i])
@@ -78,11 +77,11 @@ def main():
     canvas = Image.alpha_composite(canvas, stars_layer)
 
     # === 3b. Subtle horizontal CRT scanlines ===
-    scan_arr = np.zeros((HEIGHT, WIDTH, 4), dtype=np.uint8)
+    scan = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
+    scan_draw = ImageDraw.Draw(scan)
     for y in range(pad, HEIGHT - pad):
         if y % 4 == 0:
-            scan_arr[y, pad:WIDTH - pad, :] = [0, 0, 0, 18]
-    scan = Image.fromarray(scan_arr, "RGBA")
+            scan_draw.line([(pad, y), (WIDTH - pad, y)], fill=(0, 0, 0, 18), width=1)
     canvas = Image.alpha_composite(canvas, scan)
 
     # === 4. Multi-color ambient glow (aurora-style) ===
@@ -213,7 +212,7 @@ def main():
 
     # === 8. Tagline ===
     tag_font = ImageFont.truetype(F_LIGHT, 56)
-    tag = "Two Profiles  ·  GPTGLM / GPTONLY  ·  oa-switch Ready"
+    tag = "Three Profiles  ·  GPTGLM / GPTONLY / GPTOLLAMA"
     draw = ImageDraw.Draw(canvas)
     tag_x = center(draw, tag, tag_font, WIDTH)
     tag_y = line_y + 55
@@ -229,7 +228,7 @@ def main():
     badges = [
         ("\uf0e7 GPTGLM",    "GPT-5.4 heavy  ·  GLM-5.1 quick", (80, 250, 160)),
         ("\uf0e7 GPTONLY",   "All agents via GPT-5.4",          (100, 160, 255)),
-        ("\uf013 OA-SWITCH", "wrapper  ·  alias friendly",      (255, 140, 80)),
+        ("\uf0e7 GPTOLLAMA", "GPT-5.4 heavy  ·  Gemma 4 31B",   (255, 140, 80)),
     ]
 
     bw, bh = 1560, 230

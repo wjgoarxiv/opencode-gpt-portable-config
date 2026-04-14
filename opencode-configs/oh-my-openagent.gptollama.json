@@ -1,0 +1,113 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "hephaestus": {
+      "model": "openai/gpt-5.4",
+      "variant": "medium",
+      "description": "Craftsman - Autonomous deep worker for goal-oriented execution."
+    },
+    "oracle": {
+      "model": "openai/gpt-5.4",
+      "variant": "high",
+      "description": "Consultant - Maximum reasoning capability for hard problems."
+    },
+    "librarian": {
+      "model": "ollama/gemma4:31b",
+      "description": "Researcher - Local Gemma model for reading and summarizing docs."
+    },
+    "explore": {
+      "model": "ollama/gemma4:31b",
+      "description": "Explorer - Local Gemma model for file scanning and search."
+    },
+    "multimodal-looker": {
+      "model": "openai/gpt-5.4",
+      "description": "Vision - Use OpenAI Codex for vision-enabled workflows."
+    },
+    "prometheus": {
+      "model": "openai/gpt-5.4",
+      "variant": "max",
+      "description": "Planner - High logic model for strategic planning."
+    },
+    "metis": {
+      "model": "openai/gpt-5.4",
+      "variant": "max",
+      "description": "Plan Reviewer - Critical thinking model for verifying plans."
+    },
+    "momus": {
+      "model": "openai/gpt-5.4",
+      "variant": "medium",
+      "description": "Critic - High logic model for finding flaws."
+    },
+    "atlas": {
+      "model": "openai/gpt-5.4",
+      "description": "Atlas - Heavy-duty task executor for large-scale operations."
+    },
+    "sisyphus-junior": {
+      "model": "ollama/gemma4:31b",
+      "description": "Worker - Local Gemma model for task execution."
+    },
+    "sisyphus": {
+      "model": "openai/gpt-5.4",
+      "variant": "max",
+      "description": "Orchestrator - Uses top-tier reasoning for complex task management."
+    },
+    "plan": {
+      "model": "openai/gpt-5.4",
+      "description": "Planner - High logic model for creating detailed step-by-step plans."
+    },
+    "frontend-ui-ux-engineer": {
+      "model": "ollama/gemma4:31b",
+      "description": "UI/UX - Local Gemma model for practical frontend guidance."
+    },
+    "document-writer": {
+      "model": "ollama/gemma4:31b",
+      "description": "Writer - Local Gemma model for documentation drafts."
+    },
+    "build": {
+      "model": "ollama/gemma4:31b",
+      "description": "Builder - Local Gemma model for build commands."
+    },
+    "OpenCode-Builder": {
+      "model": "ollama/gemma4:31b",
+      "description": "Builder - Local Gemma model for project scaffolding."
+    }
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "openai/gpt-5.4",
+      "variant": "high"
+    },
+    "ultrabrain": {
+      "model": "openai/gpt-5.4",
+      "variant": "max"
+    },
+    "deep": {
+      "model": "openai/gpt-5.4",
+      "variant": "medium"
+    },
+    "artistry": {
+      "model": "openai/gpt-5.4",
+      "variant": "high"
+    },
+    "quick": {
+      "model": "ollama/gemma4:31b"
+    },
+    "unspecified-low": {
+      "model": "ollama/gemma4:31b"
+    },
+    "unspecified-high": {
+      "model": "openai/gpt-5.4",
+      "variant": "max"
+    },
+    "writing": {
+      "model": "ollama/gemma4:31b"
+    }
+  },
+  "google_auth": false,
+  "sisyphus_agent": {
+    "disabled": false,
+    "default_builder_enabled": false,
+    "planner_enabled": true,
+    "replace_plan": true
+  }
+}
