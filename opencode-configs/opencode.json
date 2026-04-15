@@ -75,8 +75,8 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen3.5:9b": {
-          "name": "Qwen 3.5 9B (local)",
+        "gemma3:12b": {
+          "name": "Gemma 3 12B (local)",
           "limit": {
             "context": 32768,
             "output": 8192

@@ -5,7 +5,7 @@
 # Profiles:
 #   gptglm   → GPT-5.4 + GLM-5.1 combination
 #   gptonly  → GPT-5.4 only
-#   gptollama → GPT-5.4 + local Ollama Qwen 3.5 9B
+#   gptollama → GPT-5.4 + local Ollama Gemma 3 12B
 #   status   → Show current active profile
 
 CONFIG_DIR="$HOME/.config/opencode"
@@ -22,11 +22,11 @@ case "$1" in
     ;;
   gptollama)
     cp "$CONFIG_DIR/oh-my-openagent.gptollama.json" "$TARGET"
-    echo "[OK] Switched to GPTOLLAMA mode (GPT-5.4 + Ollama Qwen 3.5 9B)"
+    echo "[OK] Switched to GPTOLLAMA mode (GPT-5.4 + Ollama Gemma 3 12B)"
     ;;
   status)
-    if grep -q "ollama/qwen3.5:9b" "$TARGET"; then
-      echo "[STATUS] GPTOLLAMA mode (GPT-5.4 + Ollama Qwen 3.5 9B)"
+    if grep -q "ollama/gemma3:12b" "$TARGET"; then
+      echo "[STATUS] GPTOLLAMA mode (GPT-5.4 + Ollama Gemma 3 12B)"
     elif grep -q "zai-coding-plan/glm-5.1" "$TARGET"; then
       echo "[STATUS] GPTGLM mode (GPT-5.4 + GLM-5.1)"
     else
@@ -40,7 +40,7 @@ case "$1" in
     echo ""
     echo "  gptglm          GPT-5.4 + GLM-5.1 combination"
     echo "  gptonly         GPT-5.4 only"
-    echo "  gptollama       GPT-5.4 + Ollama Qwen 3.5 9B"
+    echo "  gptollama       GPT-5.4 + Ollama Gemma 3 12B"
     echo "  status          Show current config mode"
     ;;
 esac
