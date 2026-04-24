@@ -4,9 +4,9 @@
 
 Portable OpenCode / oh-my-openagent settings centered on three profiles:
 
-- `gptglm`: `GPT-5.4 + GLM-5.1`
-- `gptonly`: `GPT-5.4 only`
-- `gptollama`: `GPT-5.4 + local Ollama gemma4:e4b`
+- `gptglm`: `GPT-5.5 + GLM-5.1`
+- `gptonly`: `GPT-5.5 only`
+- `gptollama`: `GPT-5.5 + local Ollama gemma4:e4b`
 
 This repository is a maintained snapshot of a working local setup. The old `normal / gpt-exhausted / emergency` flow is deprecated here.
 
@@ -54,16 +54,16 @@ Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode
 
 ### `gptglm`
 
-- Heavy reasoning agents: `openai/gpt-5.4`
+- Heavy reasoning agents: `openai/gpt-5.5`
 - Quick / research / worker lanes: `zai-coding-plan/glm-5.1`
 
 ### `gptonly`
 
-- All agents and categories: `openai/gpt-5.4`
+- All agents and categories: `openai/gpt-5.5`
 
 ### `gptollama`
 
-- Heavy reasoning agents: `openai/gpt-5.4`
+- Heavy reasoning agents: `openai/gpt-5.5`
 - Quick / research / worker lanes: `ollama/gemma4:e4b`
 - Requires local Ollama provider in `opencode.json`
 
@@ -119,7 +119,7 @@ This repo keeps `opencode.json` portable on purpose:
 
 - includes `oh-my-openagent@latest`
 - includes `opencode-openai-codex-auth`
-- includes OpenAI model definitions for `gpt-5.4`, `gpt-5.3-codex`, `gpt-5.3-codex-spark`
+- includes OpenAI model definitions for `gpt-5.5`, `gpt-5.3-codex`, `gpt-5.3-codex-spark`
 - includes fallback `opencode` provider entries for `kimi-k2.5-free` and `glm-4.7-free`
 - includes local `ollama` provider entry for `gemma4:e4b`
 

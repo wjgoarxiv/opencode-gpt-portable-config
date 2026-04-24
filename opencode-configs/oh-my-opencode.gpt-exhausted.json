@@ -3,18 +3,18 @@
   "agents": {
     "sisyphus": {
       "model": "github-copilot/claude-opus-4-6",
-      "variant": "max",
+      "variant": "xhigh",
       "description": "Orchestrator - Claude Opus 4.6 via Copilot. [GPT-EXHAUSTED: OpenAI direct quota spent]"
     },
     "hephaestus": {
-      "model": "github-copilot/gpt-5.4",
-      "variant": "medium",
-      "description": "Craftsman - GPT-5.4 via Copilot. [GPT-EXHAUSTED: OpenAI direct unavailable]"
+      "model": "github-copilot/gpt-5.5",
+      "variant": "high",
+      "description": "Craftsman - GPT-5.5 via Copilot. [GPT-EXHAUSTED: OpenAI direct unavailable]"
     },
     "oracle": {
-      "model": "github-copilot/gpt-5.4",
+      "model": "github-copilot/gpt-5.5",
       "variant": "high",
-      "description": "Consultant - GPT-5.4 via Copilot for architecture and hard problems. [GPT-EXHAUSTED]"
+      "description": "Consultant - GPT-5.5 via Copilot for architecture and hard problems. [GPT-EXHAUSTED]"
     },
     "librarian": {
       "model": "github-copilot/gemini-3-flash",
@@ -30,12 +30,12 @@
     },
     "prometheus": {
       "model": "github-copilot/claude-opus-4-6",
-      "variant": "max",
+      "variant": "xhigh",
       "description": "Planner - Claude Opus 4.6 via Copilot. [GPT-EXHAUSTED]"
     },
     "metis": {
       "model": "github-copilot/claude-opus-4-6",
-      "variant": "max",
+      "variant": "xhigh",
       "description": "Plan Reviewer - Claude Opus 4.6 via Copilot. [GPT-EXHAUSTED]"
     },
     "momus": {
@@ -60,8 +60,8 @@
       "description": "Writer - Claude Sonnet 4.6 via Copilot. [GPT-EXHAUSTED]"
     },
     "sisyphus-junior": {
-      "model": "github-copilot/gpt-5.4",
-      "description": "Worker - GPT-5.4 via Copilot. [GPT-EXHAUSTED]"
+      "model": "github-copilot/gpt-5.5",
+      "description": "Worker - GPT-5.5 via Copilot. [GPT-EXHAUSTED]"
     },
     "build": {
       "model": "github-copilot/grok-code-fast-1",
@@ -78,8 +78,8 @@
       "variant": "high"
     },
     "ultrabrain": {
-      "model": "github-copilot/gpt-5.4",
-      "variant": "max"
+      "model": "github-copilot/gpt-5.5",
+      "variant": "xhigh"
     },
     "deep": {
       "model": "github-copilot/claude-opus-4-6",
@@ -93,11 +93,11 @@
       "model": "github-copilot/grok-code-fast-1"
     },
     "unspecified-low": {
-      "model": "github-copilot/gpt-5.4"
+      "model": "github-copilot/gpt-5.5"
     },
     "unspecified-high": {
       "model": "github-copilot/claude-opus-4-6",
-      "variant": "max"
+      "variant": "xhigh"
     },
     "writing": {
       "model": "github-copilot/claude-sonnet-4-6"
