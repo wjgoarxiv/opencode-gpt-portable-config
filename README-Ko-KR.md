@@ -125,6 +125,21 @@ oa-switch status
 
 로컬 전용 플러그인 경로는 일부러 넣지 않았습니다.
 
+## 멀티모달 capability 메모
+
+이 저장소의 provider 모델 정의는 OpenCode에서 해당 모델이 실제로 노출하는 비텍스트 입력 capability를 명시합니다.
+
+| 모델 | 입력 modality |
+| --- | --- |
+| `openai/gpt-5.5` | `text`, `image`, `pdf` |
+| `openai/gpt-5.3-codex` | `text`, `image`, `pdf` |
+| `openai/gpt-5.3-codex-spark` | `text`, `image`, `pdf` |
+| `opencode/kimi-k2.5-free` | `text`, `image`, `video` |
+| `ollama/gemma4:e4b` | `text`, `image` |
+| `opencode/glm-4.7-free` | `text` only |
+
+다른 PC로 동기화할 때 이 항목들을 다시 `input: ["text"]`로 줄이면 안 됩니다. OpenCode는 이 metadata를 보고 이미지/PDF/video 입력을 모델에 보낼지, 아니면 text-only 오류로 대체할지 결정합니다.
+
 ## 검증
 
 복사 후:

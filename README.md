@@ -125,6 +125,21 @@ This repo keeps `opencode.json` portable on purpose:
 
 Machine-specific plugins from the local workstation are intentionally excluded.
 
+## Multimodal capability notes
+
+The provider model declarations intentionally include non-text modalities where the served model is known to expose them through OpenCode:
+
+| Model | Input modalities |
+| --- | --- |
+| `openai/gpt-5.5` | `text`, `image`, `pdf` |
+| `openai/gpt-5.3-codex` | `text`, `image`, `pdf` |
+| `openai/gpt-5.3-codex-spark` | `text`, `image`, `pdf` |
+| `opencode/kimi-k2.5-free` | `text`, `image`, `video` |
+| `ollama/gemma4:e4b` | `text`, `image` |
+| `opencode/glm-4.7-free` | `text` only |
+
+Do not collapse these entries back to `input: ["text"]` when syncing to another machine. OpenCode uses this metadata to decide whether image/PDF/video parts are sent to the model or replaced with a text-only error.
+
 ## Verify
 
 After copying:
