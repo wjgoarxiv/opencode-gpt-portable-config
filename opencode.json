@@ -14,7 +14,7 @@
             "output": 128000
           },
           "modalities": {
-            "input": ["text"],
+            "input": ["text", "image", "pdf"],
             "output": ["text"]
           }
         },
@@ -25,7 +25,7 @@
             "output": 128000
           },
           "modalities": {
-            "input": ["text"],
+            "input": ["text", "image", "pdf"],
             "output": ["text"]
           }
         },
@@ -36,7 +36,7 @@
             "output": 8192
           },
           "modalities": {
-            "input": ["text"],
+            "input": ["text", "image", "pdf"],
             "output": ["text"]
           }
         }
@@ -51,7 +51,7 @@
             "output": 8192
           },
           "modalities": {
-            "input": ["text"],
+            "input": ["text", "image", "video"],
             "output": ["text"]
           }
         },
@@ -82,7 +82,7 @@
             "output": 8192
           },
           "modalities": {
-            "input": ["text"],
+            "input": ["text", "image"],
             "output": ["text"]
           }
         }
