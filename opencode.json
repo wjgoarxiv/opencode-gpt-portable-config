@@ -54,6 +54,17 @@
             "input": ["text", "image"],
             "output": ["text"]
           }
+        },
+        "glm-5v-turbo": {
+          "name": "GLM-5V-Turbo",
+          "limit": {
+            "context": 200000,
+            "output": 128000
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
         }
       }
     },
