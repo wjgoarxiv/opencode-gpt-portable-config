@@ -47,8 +47,8 @@
         "glm-5.1": {
           "name": "GLM-5.1",
           "limit": {
-            "context": 128000,
-            "output": 8192
+            "context": 200000,
+            "output": 128000
           },
           "modalities": {
             "input": ["text", "image"],
