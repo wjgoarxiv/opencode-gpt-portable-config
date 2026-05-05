@@ -10,7 +10,7 @@
         "gpt-5.5": {
           "name": "GPT-5.5",
           "limit": {
-            "context": 1050000,
+            "context": 272000,
             "output": 128000
           },
           "modalities": {

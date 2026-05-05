@@ -136,6 +136,7 @@ The provider model declarations intentionally include non-text modalities where 
 | `openai/gpt-5.3-codex-spark` | `text`, `image`, `pdf` |
 | `opencode/kimi-k2.5-free` | `text`, `image`, `video` |
 | `ollama/gemma4:e4b` | `text`, `image` |
+| `zai-coding-plan/glm-5.1` | `text`, `image` |
 | `opencode/glm-4.7-free` | `text` only |
 
 Do not collapse these entries back to `input: ["text"]` when syncing to another machine. OpenCode uses this metadata to decide whether image/PDF/video parts are sent to the model or replaced with a text-only error.
