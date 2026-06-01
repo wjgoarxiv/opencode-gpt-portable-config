@@ -4,7 +4,7 @@
 #
 # Profiles:
 #   gptglm   → GPT-5.5 + GLM-5.1 combination
-#   gptonly  → GPT-5.5 only
+#   gptonly  → OpenAI GPT model routing
 #   gptollama → GPT-5.5 + local Ollama Gemma 4 E4B
 #   status   → Show current active profile
 
@@ -18,7 +18,7 @@ case "$1" in
     ;;
   gptonly)
     cp "$CONFIG_DIR/oh-my-openagent.gptonly.json" "$TARGET"
-    echo "[OK] Switched to GPTONLY mode (GPT-5.5 only)"
+    echo "[OK] Switched to GPTONLY mode (OpenAI GPT model routing)"
     ;;
   gptollama)
     cp "$CONFIG_DIR/oh-my-openagent.gptollama.json" "$TARGET"
@@ -30,7 +30,7 @@ case "$1" in
     elif grep -q "zai-coding-plan/glm-5.1" "$TARGET"; then
       echo "[STATUS] GPTGLM mode (GPT-5.5 + GLM-5.1)"
     else
-      echo "[STATUS] GPTONLY mode (GPT-5.5 only)"
+      echo "[STATUS] GPTONLY mode (OpenAI GPT model routing)"
     fi
     ;;
   *)
@@ -39,7 +39,7 @@ case "$1" in
     echo "Usage: $0 [gptglm|gptonly|gptollama|status]"
     echo ""
     echo "  gptglm          GPT-5.5 + GLM-5.1 combination"
-    echo "  gptonly         GPT-5.5 only"
+    echo "  gptonly         OpenAI GPT model routing"
     echo "  gptollama       GPT-5.5 + Ollama Gemma 4 E4B"
     echo "  status          Show current config mode"
     ;;

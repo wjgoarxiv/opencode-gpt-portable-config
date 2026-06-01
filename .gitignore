@@ -1,2 +1,4 @@
 .omc/
 .omx/
+.omo/
+__pycache__/

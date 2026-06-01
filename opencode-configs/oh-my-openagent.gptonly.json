@@ -12,11 +12,11 @@
       "description": "Consultant - Maximum reasoning capability for hard problems."
     },
     "librarian": {
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.4-mini",
       "description": "Researcher - Fast research model for reading and summarizing docs."
     },
     "explore": {
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.4-mini",
       "description": "Explorer - Fast model for file scanning and search."
     },
     "multimodal-looker": {
@@ -43,7 +43,7 @@
       "description": "Atlas - Heavy-duty task executor for large-scale operations."
     },
     "sisyphus-junior": {
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.3-codex",
       "description": "Worker - Reliable generalist model for task execution."
     },
     "sisyphus": {
@@ -64,7 +64,7 @@
       "description": "Writer - Practical long-context generation for documentation."
     },
     "build": {
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.3-codex-spark",
       "description": "Builder - Reliable execution for build commands."
     },
     "OpenCode-Builder": {
@@ -90,10 +90,10 @@
       "variant": "high"
     },
     "quick": {
-      "model": "openai/gpt-5.5"
+      "model": "openai/gpt-5.4-mini"
     },
     "unspecified-low": {
-      "model": "openai/gpt-5.5"
+      "model": "openai/gpt-5.3-codex"
     },
     "unspecified-high": {
       "model": "openai/gpt-5.5",

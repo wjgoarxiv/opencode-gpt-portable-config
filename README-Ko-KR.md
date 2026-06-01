@@ -5,7 +5,7 @@
 이 저장소는 현재 로컬에서 쓰는 OpenCode / oh-my-openagent 설정을 이식형으로 정리한 것입니다. 기준 프로파일은 세 가지입니다.
 
 - `gptglm`: `GPT-5.5 + GLM-5.1`
-- `gptonly`: `GPT-5.5 only`
+- `gptonly`: `OpenAI GPT model routing`
 - `gptollama`: `GPT-5.5 + local Ollama gemma4:e4b`
 
 예전 `normal / gpt-exhausted / emergency` 체계는 이 저장소에서 더 이상 기준으로 쓰지 않습니다.
@@ -59,7 +59,10 @@ Copy-Item .\opencode-configs\switch-config.sh "$env:USERPROFILE\.config\opencode
 
 ### `gptonly`
 
-- 모든 agent와 category를 `openai/gpt-5.5`로 통일
+- 빠른 검색 계열: `openai/gpt-5.4-mini`
+- agentic coding 계열: `openai/gpt-5.3-codex`
+- build 계열: `openai/gpt-5.3-codex-spark`
+- 고난도 reasoning agent: `openai/gpt-5.5`
 
 ### `gptollama`
 
@@ -119,7 +122,7 @@ oa-switch status
 
 - `oh-my-openagent@latest` 포함
 - `opencode-openai-codex-auth` 포함
-- OpenAI 모델 정의: `gpt-5.5`, `gpt-5.3-codex`, `gpt-5.3-codex-spark`
+- OpenAI 모델 정의: `gpt-5.5`, `gpt-5.4-mini`, `gpt-5.3-codex`, `gpt-5.3-codex-spark`
 - 보조 provider 정의: `kimi-k2.5-free`, `glm-4.7-free`
 - 로컬 Ollama provider 정의: `gemma4:e4b`
 
@@ -132,6 +135,7 @@ oa-switch status
 | 모델 | 입력 modality |
 | --- | --- |
 | `openai/gpt-5.5` | `text`, `image`, `pdf` |
+| `openai/gpt-5.4-mini` | `text`, `image`, `pdf` |
 | `openai/gpt-5.3-codex` | `text`, `image`, `pdf` |
 | `openai/gpt-5.3-codex-spark` | `text`, `image`, `pdf` |
 | `opencode/kimi-k2.5-free` | `text`, `image`, `video` |
