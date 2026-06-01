@@ -1,278 +1,118 @@
 #!/usr/bin/env python3
-"""Cover image — pretty terminal style. All JetBrains Mono Nerd Font."""
 
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
-import os, math, random
+import os
+from pathlib import Path
 
-DPI = 600
-WIDTH = 5400
-HEIGHT = 1800
-RADIUS = 100
-OUTPUT = os.path.join(os.path.dirname(__file__), "cover.png")
-
-BG = (18, 20, 28)
-WHITE = (235, 237, 245)
-
-F_XBOLD = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNerdFont-ExtraBold.ttf")
-F_BOLD = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNerdFont-Bold.ttf")
-F_REG = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNerdFont-Regular.ttf")
-F_LIGHT = os.path.expanduser("~/Library/Fonts/JetBrainsMonoNerdFont-Light.ttf")
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 
-def center(draw, text, font, w):
-    bb = draw.textbbox((0, 0), text, font=font)
-    return (w - bb[2] + bb[0]) // 2
+ROOT = Path(__file__).resolve().parent
+OUT_PATH = ROOT / "cover.png"
+
+W, H = 2560, 1280
+CORNER_RADIUS = 80
+
+BASE = (8, 12, 24, 255)
+BLOBS = [
+    (24, 94, 130, 210, 700, 600, 720, 500, 120),
+    (56, 180, 205, 150, 1900, 210, 620, 390, 105),
+    (20, 38, 92, 185, 1280, 1150, 930, 360, 95),
+    (82, 120, 255, 105, 1400, 640, 520, 350, 85),
+]
+TITLE_GLOWS = [
+    ((60, 220, 235, 58), 18),
+    ((115, 190, 255, 88), 9),
+    ((170, 230, 255, 115), 4),
+]
+TITLE_COLOR = (246, 250, 255, 248)
+SUBTITLE_COLOR = (158, 190, 218, 216)
+
+
+def make_blob(size, color_rgba, cx, cy, rx, ry):
+    layer = Image.new("RGBA", size, (0, 0, 0, 0))
+    ImageDraw.Draw(layer).ellipse([cx - rx, cy - ry, cx + rx, cy + ry], fill=color_rgba)
+    return layer
+
+
+def font(path, size, index=0):
+    return ImageFont.truetype(path, size, index=index)
+
+
+def load_fonts():
+    try:
+        return (
+            font("/System/Library/Fonts/Menlo.ttc", 220, index=1),
+            font("/System/Library/Fonts/Menlo.ttc", 70, index=0),
+        )
+    except OSError:
+        fallback = "/System/Library/Fonts/Supplemental/Courier New Bold.ttf"
+        return font(fallback, 220), font(fallback, 70)
+
+
+def text_layer(text, x, y, selected_font, color):
+    layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(layer).text((x, y), text, font=selected_font, fill=color)
+    return layer
+
+
+def centered_position(draw, text, selected_font):
+    bbox = draw.textbbox((0, 0), text, font=selected_font)
+    return bbox, (W - (bbox[2] - bbox[0])) // 2 - bbox[0]
 
 
 def main():
-    # === 1. Black canvas ===
-    canvas = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 255))
+    canvas = Image.new("RGBA", (W, H), BASE)
 
-    # === 2. Inner rounded rect with dark bg ===
-    inner = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    inner_draw = ImageDraw.Draw(inner)
-    pad = 40
-    inner_draw.rounded_rectangle(
-        [pad, pad, WIDTH - pad, HEIGHT - pad],
-        radius=RADIUS, fill=BG
+    for r, g, b, a, cx, cy, rx, ry, blur in BLOBS:
+        blob = make_blob((W, H), (r, g, b, a), cx, cy, rx, ry)
+        canvas = Image.alpha_composite(canvas, blob.filter(ImageFilter.GaussianBlur(radius=blur)))
+
+    canvas = canvas.filter(ImageFilter.GaussianBlur(radius=8))
+
+    rng = np.random.default_rng(42)
+    noise = rng.integers(0, 255, (H, W), dtype=np.uint8)
+    grain_alpha = (noise * 0.20).astype(np.uint8)
+    grain_layer = np.stack([noise, noise, noise, grain_alpha], axis=-1).astype(np.uint8)
+    canvas = Image.alpha_composite(canvas, Image.fromarray(grain_layer, "RGBA"))
+
+    title_font, subtitle_font = load_fonts()
+    title_text = "opencode-config"
+    subtitle_text = "Portable GPT routing for OpenCode agents."
+
+    probe = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(probe)
+    title_bbox, title_x = centered_position(draw, title_text, title_font)
+    subtitle_bbox, subtitle_x = centered_position(draw, subtitle_text, subtitle_font)
+
+    title_h = title_bbox[3] - title_bbox[1]
+    subtitle_h = subtitle_bbox[3] - subtitle_bbox[1]
+    gap = 48
+    block_top = (H - (title_h + gap + subtitle_h)) // 2 - 30
+    title_y = block_top - title_bbox[1]
+    subtitle_y = title_y + title_h + gap - subtitle_bbox[1]
+
+    for glow_color, blur_radius in TITLE_GLOWS:
+        glow = text_layer(title_text, title_x, title_y, title_font, glow_color)
+        canvas = Image.alpha_composite(canvas, glow.filter(ImageFilter.GaussianBlur(radius=blur_radius)))
+
+    canvas = Image.alpha_composite(canvas, text_layer(title_text, title_x, title_y, title_font, TITLE_COLOR))
+    canvas = Image.alpha_composite(
+        canvas,
+        text_layer(subtitle_text, subtitle_x, subtitle_y, subtitle_font, SUBTITLE_COLOR),
     )
-    canvas = Image.alpha_composite(canvas, inner)
 
-    # === 3. Constellation star field ===
-    rng = random.Random(77)
-    stars_layer = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    stars_draw = ImageDraw.Draw(stars_layer)
+    mask = Image.new("L", (W, H), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([(0, 0), (W - 1, H - 1)], radius=CORNER_RADIUS, fill=255)
+    canvas.putalpha(mask)
+    canvas = canvas.filter(ImageFilter.GaussianBlur(radius=1))
+    canvas.save(OUT_PATH, "PNG", dpi=(400, 400))
 
-    # Generate star positions
-    n_stars = 180
-    sx = [rng.randint(pad + 60, WIDTH - pad - 60) for _ in range(n_stars)]
-    sy = [rng.randint(pad + 60, HEIGHT - pad - 60) for _ in range(n_stars)]
-    s_bright = [rng.randint(15, 55) for _ in range(n_stars)]
-    s_size = [rng.choice([1, 1, 1, 2, 2, 3]) for _ in range(n_stars)]
-
-    for i in range(n_stars):
-        a = int(s_bright[i])
-        r = int(s_size[i])
-        x, y = int(sx[i]), int(sy[i])
-        if r == 1:
-            stars_draw.point((x, y), fill=(200, 210, 240, a))
-        else:
-            stars_draw.ellipse([x - r, y - r, x + r, y + r],
-                               fill=(200, 210, 240, a))
-
-    # Constellation lines — connect nearby stars
-    for i in range(n_stars):
-        for j in range(i + 1, n_stars):
-            dx = float(sx[i] - sx[j])
-            dy = float(sy[i] - sy[j])
-            dist = math.sqrt(dx * dx + dy * dy)
-            if 120 < dist < 350:
-                # Only draw some connections
-                if rng.random() < 0.12:
-                    a = max(4, int(12 * (1.0 - dist / 350)))
-                    stars_draw.line(
-                        [(int(sx[i]), int(sy[i])), (int(sx[j]), int(sy[j]))],
-                        fill=(140, 160, 200, a), width=1)
-
-    canvas = Image.alpha_composite(canvas, stars_layer)
-
-    # === 3b. Subtle horizontal CRT scanlines ===
-    scan = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    scan_draw = ImageDraw.Draw(scan)
-    for y in range(pad, HEIGHT - pad):
-        if y % 4 == 0:
-            scan_draw.line([(pad, y), (WIDTH - pad, y)], fill=(0, 0, 0, 18), width=1)
-    canvas = Image.alpha_composite(canvas, scan)
-
-    # === 4. Multi-color ambient glow (aurora-style) ===
-    gcx, gcy = WIDTH // 2, int(HEIGHT * 0.36)
-
-    # Broad diffuse base
-    glow = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    grx, gry = int(WIDTH * 0.38), int(HEIGHT * 0.50)
-    ImageDraw.Draw(glow).ellipse(
-        [gcx - grx, gcy - gry, gcx + grx, gcy + gry],
-        fill=(30, 45, 75, 255))
-    glow = glow.filter(ImageFilter.GaussianBlur(radius=250))
-    canvas = Image.alpha_composite(canvas, glow)
-
-    # Left — purple/magenta
-    glow_l = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    lx = int(WIDTH * 0.25)
-    ImageDraw.Draw(glow_l).ellipse(
-        [lx - 600, gcy - 350, lx + 600, gcy + 350],
-        fill=(90, 30, 130, 140))
-    glow_l = glow_l.filter(ImageFilter.GaussianBlur(radius=250))
-    canvas = Image.alpha_composite(canvas, glow_l)
-
-    # Right — teal/cyan
-    glow_r = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    rx = int(WIDTH * 0.75)
-    ImageDraw.Draw(glow_r).ellipse(
-        [rx - 600, gcy - 350, rx + 600, gcy + 350],
-        fill=(20, 90, 110, 140))
-    glow_r = glow_r.filter(ImageFilter.GaussianBlur(radius=250))
-    canvas = Image.alpha_composite(canvas, glow_r)
-
-    # Center bright core
-    glow2 = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    grx2, gry2 = int(WIDTH * 0.16), int(HEIGHT * 0.28)
-    ImageDraw.Draw(glow2).ellipse(
-        [gcx - grx2, gcy - gry2, gcx + grx2, gcy + gry2],
-        fill=(65, 75, 110, 255))
-    glow2 = glow2.filter(ImageFilter.GaussianBlur(radius=160))
-    canvas = Image.alpha_composite(canvas, glow2)
-
-    # Bottom warm accent (under badges)
-    glow_b = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    by_glow = int(HEIGHT * 0.78)
-    ImageDraw.Draw(glow_b).ellipse(
-        [gcx - 1200, by_glow - 200, gcx + 1200, by_glow + 200],
-        fill=(40, 55, 80, 120))
-    glow_b = glow_b.filter(ImageFilter.GaussianBlur(radius=180))
-    canvas = Image.alpha_composite(canvas, glow_b)
-
-    # === 5. Title text — "OpenCode" ===
-    draw = ImageDraw.Draw(canvas)
-    title_font = ImageFont.truetype(F_XBOLD, 280)
-    title = "OpenCode"
-    tx = center(draw, title, title_font, WIDTH)
-    ty = int(HEIGHT * 0.10)
-
-    # Text glow
-    tglow = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    ImageDraw.Draw(tglow).text((tx, ty), title, fill=(200, 205, 220, 80), font=title_font)
-    tglow = tglow.filter(ImageFilter.GaussianBlur(radius=30))
-    canvas = Image.alpha_composite(canvas, tglow)
-
-    # Sharp text
-    tl = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    ImageDraw.Draw(tl).text((tx, ty), title, fill=WHITE, font=title_font)
-    canvas = Image.alpha_composite(canvas, tl)
-
-    # === 6. Subtitle — "Portable Config" ===
-    sub_font = ImageFont.truetype(F_BOLD, 220)
-    sub = "Portable Config"
-    draw = ImageDraw.Draw(canvas)
-    sx = center(draw, sub, sub_font, WIDTH)
-    sy = ty + 320
-
-    # Subtitle glow
-    sglow = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    ImageDraw.Draw(sglow).text((sx, sy), sub, fill=(180, 185, 200, 50), font=sub_font)
-    sglow = sglow.filter(ImageFilter.GaussianBlur(radius=25))
-    canvas = Image.alpha_composite(canvas, sglow)
-
-    sl = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    ImageDraw.Draw(sl).text((sx, sy), sub, fill=WHITE, font=sub_font)
-    canvas = Image.alpha_composite(canvas, sl)
-
-    # === 7. Rainbow gradient underline ===
-    line_y = sy + 270
-    colors = [
-        (80, 250, 160),   # green
-        (100, 220, 255),  # cyan
-        (140, 160, 255),  # blue
-        (180, 120, 255),  # purple
-        (255, 100, 180),  # pink
-        (255, 160, 80),   # orange
-    ]
-
-    line_len = 1400
-    line_sx = (WIDTH - line_len) // 2
-    line_img = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    line_draw = ImageDraw.Draw(line_img)
-
-    for x in range(line_len):
-        prog = x / line_len
-        seg = prog * (len(colors) - 1)
-        idx = min(int(seg), len(colors) - 2)
-        t = seg - idx
-        c1, c2 = colors[idx], colors[idx + 1]
-        r = int(c1[0] + (c2[0] - c1[0]) * t)
-        g = int(c1[1] + (c2[1] - c1[1]) * t)
-        b = int(c1[2] + (c2[2] - c1[2]) * t)
-
-        # Edge fade
-        fade = 1.0
-        if x < 100:
-            fade = x / 100
-        elif x > line_len - 100:
-            fade = (line_len - x) / 100
-
-        a = int(230 * fade)
-        px = line_sx + x
-        for dy in range(5):
-            line_draw.point((px, line_y + dy), fill=(r, g, b, a))
-
-    # Line glow
-    lglow = line_img.filter(ImageFilter.GaussianBlur(radius=12))
-    canvas = Image.alpha_composite(canvas, lglow)
-    canvas = Image.alpha_composite(canvas, line_img)
-
-    # === 8. Tagline ===
-    tag_font = ImageFont.truetype(F_LIGHT, 56)
-    tag = "Three Profiles  ·  GPTGLM / GPTONLY / GPTOLLAMA"
-    draw = ImageDraw.Draw(canvas)
-    tag_x = center(draw, tag, tag_font, WIDTH)
-    tag_y = line_y + 55
-
-    tag_l = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    ImageDraw.Draw(tag_l).text((tag_x, tag_y), tag, fill=(170, 175, 190, 180), font=tag_font)
-    canvas = Image.alpha_composite(canvas, tag_l)
-
-    # === 9. Model badges — clean, no spec text ===
-    badge_font_label = ImageFont.truetype(F_BOLD, 65)
-    badge_font_model = ImageFont.truetype(F_REG, 62)
-
-    badges = [
-        ("\uf0e7 GPTGLM",    "GPT-5.5 heavy  ·  GLM-5.1 quick", (80, 250, 160)),
-        ("\uf0e7 GPTONLY",   "All agents via GPT-5.5",          (100, 160, 255)),
-        ("\uf0e7 GPTOLLAMA", "GPT-5.5 heavy  ·  Gemma 4 E4B",   (255, 140, 80)),
-    ]
-
-    bw, bh = 1560, 230
-    gap = 90
-    total = len(badges) * bw + gap * (len(badges) - 1)
-    bsx = (WIDTH - total) // 2
-    by = int(HEIGHT * 0.72)
-
-    badge_layer = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    bd = ImageDraw.Draw(badge_layer)
-
-    for i, (label, model, color) in enumerate(badges):
-        bx = bsx + i * (bw + gap)
-
-        # Subtle fill
-        bd.rounded_rectangle([bx, by, bx + bw, by + bh], radius=16,
-                             fill=(25, 28, 38, 140),
-                             outline=(*color, 50), width=2)
-
-        # Left accent bar
-        bd.rounded_rectangle([bx + 10, by + 14, bx + 17, by + bh - 14],
-                             radius=3, fill=(*color, 170))
-
-        # Label
-        bd.text((bx + 40, by + 20), label, fill=(*color, 240), font=badge_font_label)
-
-        # Model name
-        bd.text((bx + 40, by + 110), model, fill=(*WHITE, 225), font=badge_font_model)
-
-    canvas = Image.alpha_composite(canvas, badge_layer)
-
-    # === 10. Clip to rounded rect (outer is transparent) ===
-    mask = Image.new("L", (WIDTH, HEIGHT), 0)
-    ImageDraw.Draw(mask).rounded_rectangle(
-        [0, 0, WIDTH - 1, HEIGHT - 1], radius=RADIUS + 40, fill=255
-    )
-    bg_transparent = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-    final = Image.composite(canvas, bg_transparent, mask)
-
-    # === Save ===
-    final.save(OUTPUT, "PNG", dpi=(DPI, DPI))
-    mb = os.path.getsize(OUTPUT) / 1024 / 1024
-    print(f"Saved: {OUTPUT}")
-    print(f"{WIDTH}x{HEIGHT} @ {DPI} DPI  ({mb:.1f} MB)")
+    size_mb = os.path.getsize(OUT_PATH) / 1024 / 1024
+    print(f"Saved: {OUT_PATH}")
+    print(f"Size: {canvas.size}")
+    print(f"Mode: {canvas.mode}")
+    print(f"File: {size_mb:.1f} MB")
 
 
 if __name__ == "__main__":
